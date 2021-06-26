@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace gis_final.Models
 {
-    public class StudentGraduationStatus
+    public class StudentGraduationStatus : BaseEntity
     {
         public enum EnumStudentGraduationStatus
         {
