@@ -40,7 +40,7 @@ namespace gis_final.Models
             modelBuilder.Entity<StudentField>().HasKey(k => new { k.UserId, k.FieldId });
             modelBuilder.Entity<TeacherField>().HasKey(k => new { k.UserId, k.FieldId });
             modelBuilder.Entity<FieldCourses>().HasKey(k => new { k.CourseId, k.FieldId });
-            modelBuilder.Entity<UserTags>().HasKey(k => new { k.UserId, k.TagId });
+            modelBuilder.Entity<UserTags>().HasKey(k => new { k.Id });
         }
     }
 }

@@ -152,7 +152,6 @@ D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\D
 D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\Razor\Views\Users\Edit.cshtml.g.cs
 D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\Razor\Views\Users\Index.cshtml.g.cs
 D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\Razor\Views\Home\Login.cshtml.g.cs
-D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\Razor\Views\Dashboard\Index.cshtml.g.cs
 D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\bin\Debug\netcoreapp3.1\libman.json
 D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\Razor\Views\Addresses\Create.cshtml.g.cs
 D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\Razor\Views\Addresses\Delete.cshtml.g.cs
@@ -239,3 +238,13 @@ D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\D
 D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\Razor\Views\UserTags\Details.cshtml.g.cs
 D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\Razor\Views\UserTags\Edit.cshtml.g.cs
 D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\Razor\Views\UserTags\Index.cshtml.g.cs
+D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\Razor\Views\YearTerms\Create.cshtml.g.cs
+D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\Razor\Views\YearTerms\Delete.cshtml.g.cs
+D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\Razor\Views\YearTerms\Details.cshtml.g.cs
+D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\Razor\Views\YearTerms\Edit.cshtml.g.cs
+D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\Razor\Views\YearTerms\Index.cshtml.g.cs
+D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\Razor\Views\Teachers\Index.cshtml.g.cs
+D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\Razor\Views\Students\Index.cshtml.g.cs
+D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\Razor\Views\Dashboard\Index.cshtml.g.cs
+D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\Razor\Views\Teachers\AddTag.cshtml.g.cs
+D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\Razor\Views\Teachers\AssignTag.cshtml.g.cs

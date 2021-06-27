@@ -237,12 +237,14 @@ namespace gis_final.Migrations
                 name: "UserTags",
                 columns: table => new
                 {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(nullable: false),
                     TagId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserTags", x => new { x.UserId, x.TagId });
+                    table.PrimaryKey("PK_UserTags", x => x.Id);
                     table.ForeignKey(
                         name: "FK_UserTags_Tags_TagId",
                         column: x => x.TagId,
@@ -498,6 +500,11 @@ namespace gis_final.Migrations
                 name: "IX_UserTags_TagId",
                 table: "UserTags",
                 column: "TagId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserTags_UserId",
+                table: "UserTags",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace gis_final.Models
 {
+    public enum EnumScoreStatus
+    {
+        Passed = 0,
+        Refused = 1
+    }
+
     public class Schedule : BaseEntity
     {
-        public enum EnumScoreStatus
-        {
-            Passed = 0,
-            Refused = 1
-        }
-
         public int TeacherFieldCourseId { get; set; }
         public virtual TeacherFieldCourse TeacherFieldCourse { get; set; }
         // StudentId
