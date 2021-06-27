@@ -1,0 +1,9 @@
+﻿@{ 
+    Layout = null;
+}
+<span>@ViewBag.msg</span>
+<form asp-action="Login" method="post">
+    <input type="text" name="Email" placeholder="Email" value="" />
+    <input type="password" name="Password" placeholder="Password" value="" />
+    <input type="submit" value="Login" />
+</form>

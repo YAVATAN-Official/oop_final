@@ -15,8 +15,8 @@ namespace gis_final.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasAnnotation("ProductVersion", "3.1.16")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("gis_final.Models.Address", b =>
@@ -40,8 +40,8 @@ namespace gis_final.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PostalCode")
-                        .HasMaxLength(12)
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasMaxLength(12);
 
                     b.Property<string>("State")
                         .HasColumnType("nvarchar(max)");
@@ -469,8 +469,6 @@ namespace gis_final.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("gis_final.Models.Field", b =>
@@ -480,8 +478,6 @@ namespace gis_final.Migrations
                         .HasForeignKey("FacultyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Faculty");
                 });
 
             modelBuilder.Entity("gis_final.Models.FieldCourses", b =>
@@ -497,10 +493,6 @@ namespace gis_final.Migrations
                         .HasForeignKey("FieldId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Course");
-
-                    b.Navigation("Field");
                 });
 
             modelBuilder.Entity("gis_final.Models.Schedule", b =>
@@ -516,10 +508,6 @@ namespace gis_final.Migrations
                         .HasForeignKey("YearTermId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("TeacherFieldCourse");
-
-                    b.Navigation("YearTerm");
                 });
 
             modelBuilder.Entity("gis_final.Models.StudentConselor", b =>
@@ -529,8 +517,6 @@ namespace gis_final.Migrations
                         .HasForeignKey("gis_final.Models.StudentConselor", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("gis_final.Models.StudentDegree", b =>
@@ -540,8 +526,6 @@ namespace gis_final.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("gis_final.Models.StudentField", b =>
@@ -557,10 +541,6 @@ namespace gis_final.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Field");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("gis_final.Models.StudentGraduationStatus", b =>
@@ -570,8 +550,6 @@ namespace gis_final.Migrations
                         .HasForeignKey("gis_final.Models.StudentGraduationStatus", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("gis_final.Models.TeacherCourseResearchAssistant", b =>
@@ -581,8 +559,6 @@ namespace gis_final.Migrations
                         .HasForeignKey("TeacherFieldCourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("TeacherFieldCourse");
                 });
 
             modelBuilder.Entity("gis_final.Models.TeacherField", b =>
@@ -598,10 +574,6 @@ namespace gis_final.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Field");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("gis_final.Models.TeacherFieldCourse", b =>
@@ -621,10 +593,6 @@ namespace gis_final.Migrations
                         .HasForeignKey("FieldCoursesCourseId", "FieldCoursesFieldId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("FieldCourses");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("gis_final.Models.UserRoles", b =>
@@ -640,10 +608,6 @@ namespace gis_final.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("gis_final.Models.UserTags", b =>
@@ -659,68 +623,6 @@ namespace gis_final.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Tag");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("gis_final.Models.Course", b =>
-                {
-                    b.Navigation("FieldCourses");
-                });
-
-            modelBuilder.Entity("gis_final.Models.Faculty", b =>
-                {
-                    b.Navigation("Fields");
-                });
-
-            modelBuilder.Entity("gis_final.Models.Field", b =>
-                {
-                    b.Navigation("FieldCourses");
-
-                    b.Navigation("TeacherFieldCourses");
-                });
-
-            modelBuilder.Entity("gis_final.Models.FieldCourses", b =>
-                {
-                    b.Navigation("TeacherFieldCourses");
-                });
-
-            modelBuilder.Entity("gis_final.Models.Role", b =>
-                {
-                    b.Navigation("UserRoles");
-                });
-
-            modelBuilder.Entity("gis_final.Models.Tag", b =>
-                {
-                    b.Navigation("UserTags");
-                });
-
-            modelBuilder.Entity("gis_final.Models.TeacherFieldCourse", b =>
-                {
-                    b.Navigation("Schedules");
-
-                    b.Navigation("TeacherCourseResearchAssistants");
-                });
-
-            modelBuilder.Entity("gis_final.Models.User", b =>
-                {
-                    b.Navigation("Addresses");
-
-                    b.Navigation("StudentConselor");
-
-                    b.Navigation("StudentDegrees");
-
-                    b.Navigation("StudentFields");
-
-                    b.Navigation("StudentGraduationStatus");
-
-                    b.Navigation("TeacherFields");
-
-                    b.Navigation("UserRoles");
-
-                    b.Navigation("UserTags");
                 });
 #pragma warning restore 612, 618
         }
