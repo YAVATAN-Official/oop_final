@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 
 namespace gis_final.Models
 {
+    public enum EnumUserStatus
+    {
+        registered = 0,
+        confirmed = 1,
+        banned = 2,
+        deleted = 3
+    }
+
     public class User : BaseEntity
     {
-        public enum EnumUserStatus
-        {
-            registered = 0,
-            confirmed = 1,
-            banned = 2,
-            deleted = 3
-        }
-
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string UserNumber { get; set; }

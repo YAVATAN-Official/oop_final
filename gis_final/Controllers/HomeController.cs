@@ -11,11 +11,9 @@ namespace gis_final.Controllers
     public class HomeController : Controller
     {
         private readonly YasharDbContext _context;
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger, YasharDbContext context)
+        public HomeController(YasharDbContext context)
         {
-            _logger = logger;
             _context = context;
         }
 
@@ -39,6 +37,7 @@ namespace gis_final.Controllers
                 var userRole = await _context.UserRoles.Include(p => p.Role).Where(x => x.UserId == user.Id).ToListAsync();
                 if (userRole != null)
                 {
+                    HttpContext.Session.SetInt32("UserId", user.Id);
                     HttpContext.Session.SetString("Email", user.Email);
                     if (userRole.Count() > 1)
                     {
@@ -82,6 +81,7 @@ namespace gis_final.Controllers
         {
             HttpContext.Session.Remove("Role");
             HttpContext.Session.Remove("Email");
+            HttpContext.Session.Remove("UserId");
 
             HttpContext.Session.Clear();
 

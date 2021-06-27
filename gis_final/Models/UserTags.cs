@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace gis_final.Models
 {
-    public class UserTags
+    public class UserTags : BaseEntity
     {
         public int UserId { get; set; }
         public virtual User User { get; set; }

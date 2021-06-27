@@ -10,7 +10,7 @@ using gis_final.Models;
 namespace gis_final.Migrations
 {
     [DbContext(typeof(YasharDbContext))]
-    [Migration("20210627161015_initial-migration")]
+    [Migration("20210627220747_initial-migration")]
     partial class initialmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -433,15 +433,22 @@ namespace gis_final.Migrations
 
             modelBuilder.Entity("gis_final.Models.UserTags", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("TagId")
                         .HasColumnType("int");
 
-                    b.HasKey("UserId", "TagId");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("TagId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserTags");
                 });

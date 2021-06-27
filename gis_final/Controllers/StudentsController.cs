@@ -9,43 +9,34 @@ using System.Threading.Tasks;
 
 namespace gis_final.Controllers
 {
-    public class DashboardController : Controller
+    public class StudentsController : Controller
     {
         private readonly YasharDbContext _context;
 
-        public DashboardController(YasharDbContext context)
+        public StudentsController(YasharDbContext context)
         {
             _context = context;
         }
 
-        // GET: DashboardController
+        // GET: TeachersController
         public async Task<ActionResult> Index()
         {
-            string role = HttpContext.Session.GetString("Role");
-            if (role == null)
-            {
-                return RedirectToAction("Login", "Home");
-            }
-
-            int userId = Convert.ToInt32(HttpContext.Session.GetInt32("UserId"));
-
-
-            return View(await _context.Users.FirstOrDefaultAsync(u => u.Id == userId));
+            return View(await _context.UserRoles.Include(u => u.User).Include(r => r.Role).Where(u => u.Role.Title == "Student" || u.Role.Title == "Assistant").ToListAsync());
         }
 
-        // GET: DashboardController/Details/5
+        // GET: StudentsController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: DashboardController/Create
+        // GET: StudentsController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: DashboardController/Create
+        // POST: StudentsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -60,13 +51,13 @@ namespace gis_final.Controllers
             }
         }
 
-        // GET: DashboardController/Edit/5
+        // GET: StudentsController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: DashboardController/Edit/5
+        // POST: StudentsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -81,13 +72,13 @@ namespace gis_final.Controllers
             }
         }
 
-        // GET: DashboardController/Delete/5
+        // GET: StudentsController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: DashboardController/Delete/5
+        // POST: StudentsController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
