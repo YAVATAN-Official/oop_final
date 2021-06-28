@@ -1,0 +1,39 @@
+﻿@model IEnumerable<gis_final.Models.Tag>
+
+@{
+    ViewData["Title"] = "Add Tag";
+}
+
+<h1>Select Tag</h1>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>Select</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    <form asp-action="AddTag" method="post">
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <input type="hidden" name="userId" value="@ViewBag.UserId" />
+                        <button class="btn">
+                            <i class="fa fa-plus text-success"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

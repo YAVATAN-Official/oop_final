@@ -6,7 +6,20 @@
 
 <h1>Create</h1>
 
-<h4>User</h4>
+@{
+    if (ViewBag.userType == 2)
+    {
+        <h4>Student</h4>
+    }
+    else if (ViewBag.userType == 1)
+    {
+        <h4>Teacher</h4>
+    }
+    else
+    {
+        <h4>User</h4>
+    }
+}
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -49,8 +62,10 @@
             </div>
             <div class="form-group">
                 <label asp-for="UserStatus" class="control-label"></label>
-                <select asp-for="UserStatus" class="form-control"></select>
+                <select asp-for="UserStatus" class="form-control" asp-items="Html.GetEnumSelectList<EnumUserStatus>()">
+                </select>
                 <span asp-validation-for="UserStatus" class="text-danger"></span>
+                <input type="hidden" name="userType" value="@ViewBag.userType" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

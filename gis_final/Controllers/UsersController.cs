@@ -43,8 +43,9 @@ namespace gis_final.Controllers
         }
 
         // GET: Users/Create
-        public IActionResult Create()
+        public IActionResult Create(int? userType)
         {
+            ViewBag.userType = userType;
             return View();
         }
 
@@ -53,12 +54,34 @@ namespace gis_final.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FirstName,LastName,UserNumber,IdentityNumber,PhoneNumber,Email,Password,UserStatus,Id")] User user)
+        public async Task<IActionResult> Create([Bind("FirstName,LastName,UserNumber,IdentityNumber,PhoneNumber,Email,Password,UserStatus,Id")] User user, int? userType)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(user);
                 await _context.SaveChangesAsync();
+
+                switch (userType)
+                {
+                    
+                    case 1: // teacher
+                        Role getTeacherRole = await _context.Roles.FirstOrDefaultAsync(x => x.Title == "Teacher");
+                        UserRoles teacherRole = new UserRoles { UserId = user.Id, RoleId = getTeacherRole.Id, Confirm = true, Delete = true, Create = true, Update = true, View = true };
+
+                        _context.UserRoles.Add(teacherRole);
+                        await _context.SaveChangesAsync();
+                        break;
+                    case 2: // student
+                        Role getStudentRole = await _context.Roles.FirstOrDefaultAsync(x => x.Title == "Student");
+                        UserRoles studentRole = new UserRoles { UserId = user.Id, RoleId = getStudentRole.Id, Confirm = true, Delete = true, Create = true, Update = true, View = true };
+
+                        _context.UserRoles.Add(studentRole);
+                        await _context.SaveChangesAsync();
+                        break;
+                    default:
+                        break;
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             return View(user);

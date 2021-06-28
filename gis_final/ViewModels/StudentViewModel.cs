@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace gis_final.ViewModels
 {
-    public class TeacherViewModel
+    public class StudentViewModel
     {
         public User User { get; set; }
         public string TagName { get; set; }
