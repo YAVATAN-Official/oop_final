@@ -19,6 +19,12 @@ namespace gis_final.Controllers
 
         public IActionResult Index()
         {
+            string isUserSignedIn = HttpContext.Session.GetString("Role");
+            if (isUserSignedIn != null)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+
             return RedirectToAction(nameof(Login));
         }
 

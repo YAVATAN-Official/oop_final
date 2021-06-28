@@ -1,8 +1,8 @@
 ﻿using gis_final.Models;
+using gis_final.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,10 +19,54 @@ namespace gis_final.Controllers
         }
 
         // GET: TeachersController
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            return View(await _context.UserRoles.Include(u => u.User).Include(r => r.Role).Where(u => u.Role.Title == "Student" || u.Role.Title == "Assistant").ToListAsync());
+            var teacherViewModels = from a in _context.UserRoles.ToList()
+                                    join b in _context.Users.ToList() on a.UserId equals b.Id
+                                    join e in _context.Roles.ToList() on a.RoleId equals e.Id
+                                    join c in _context.UserTags.ToList() on b.Id equals c.UserId into ut
+                                    from u in ut.DefaultIfEmpty()
+                                    join d in _context.Tags.ToList() on u?.TagId equals d.Id into tt
+                                    from t in tt.DefaultIfEmpty()
+                                    where a.Role.Title == "Student" || a.Role.Title == "Assistant"
+                                    select new StudentViewModel
+                                    {
+                                        User = b,
+                                        Roles = e,
+                                        TagName = t?.Title ?? "Unknown"
+                                    };
+
+            return View(teacherViewModels);
         }
+
+        // GET: TeachersController
+        public async Task<ActionResult> AddTag(int id)
+        {
+            ViewBag.UserId = id;
+            return View(await _context.Tags.ToListAsync());
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddTag(int id, int userId)
+        {
+            var checkUserTag = await _context.UserTags.Where(x => x.UserId == userId).ToListAsync();
+            if (checkUserTag.Count() > 0)
+            {
+                UserTags userTags = await _context.UserTags.FirstOrDefaultAsync(x => x.UserId == userId);
+                userTags.TagId = id;
+                _context.UserTags.Update(userTags);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                var ut = new UserTags { TagId = id, UserId = userId };
+                _context.UserTags.Add(ut);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
 
         // GET: StudentsController/Details/5
         public ActionResult Details(int id)

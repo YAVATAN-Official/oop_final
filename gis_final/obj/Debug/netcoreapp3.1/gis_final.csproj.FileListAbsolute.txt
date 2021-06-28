@@ -247,4 +247,4 @@ D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\D
 D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\Razor\Views\Students\Index.cshtml.g.cs
 D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\Razor\Views\Dashboard\Index.cshtml.g.cs
 D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\Razor\Views\Teachers\AddTag.cshtml.g.cs
-D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\Razor\Views\Teachers\AssignTag.cshtml.g.cs
+D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\Razor\Views\Students\AddTag.cshtml.g.cs

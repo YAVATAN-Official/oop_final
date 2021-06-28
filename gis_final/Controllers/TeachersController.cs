@@ -34,7 +34,7 @@ namespace gis_final.Controllers
                     {
                         User = b,
                         Roles = e,
-                        TagName = t?.Title ?? String.Empty
+                        TagName = t?.Title ?? "Unknown"
                     };
 
             return View(teacherViewModels);
