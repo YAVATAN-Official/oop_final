@@ -2,7 +2,7 @@
 
 namespace gis_final.Migrations
 {
-    public partial class initialmigration : Migration
+    public partial class initial_migration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -148,14 +148,12 @@ namespace gis_final.Migrations
                 name: "StudentConselors",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(nullable: false),
                     TeacherId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StudentConselors", x => x.Id);
+                    table.PrimaryKey("PK_StudentConselors", x => x.UserId);
                     table.ForeignKey(
                         name: "FK_StudentConselors_Users_UserId",
                         column: x => x.UserId,
@@ -237,14 +235,12 @@ namespace gis_final.Migrations
                 name: "UserTags",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(nullable: false),
                     TagId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserTags", x => x.Id);
+                    table.PrimaryKey("PK_UserTags", x => new { x.UserId, x.TagId });
                     table.ForeignKey(
                         name: "FK_UserTags_Tags_TagId",
                         column: x => x.TagId,
@@ -263,13 +259,13 @@ namespace gis_final.Migrations
                 name: "FieldCourses",
                 columns: table => new
                 {
+                    Id = table.Column<int>(nullable: false),
                     FieldId = table.Column<int>(nullable: false),
-                    CourseId = table.Column<int>(nullable: false),
-                    Id = table.Column<int>(nullable: false)
+                    CourseId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FieldCourses", x => new { x.CourseId, x.FieldId });
+                    table.PrimaryKey("PK_FieldCourses", x => new { x.Id, x.CourseId, x.FieldId });
                     table.ForeignKey(
                         name: "FK_FieldCourses_Courses_CourseId",
                         column: x => x.CourseId,
@@ -340,6 +336,7 @@ namespace gis_final.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(nullable: false),
                     FieldCoursesId = table.Column<int>(nullable: false),
+                    FieldCoursesId1 = table.Column<int>(nullable: false),
                     FieldCoursesCourseId = table.Column<int>(nullable: false),
                     FieldCoursesFieldId = table.Column<int>(nullable: false),
                     time = table.Column<string>(nullable: true),
@@ -363,10 +360,10 @@ namespace gis_final.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TeacherFieldCourses_FieldCourses_FieldCoursesCourseId_FieldCoursesFieldId",
-                        columns: x => new { x.FieldCoursesCourseId, x.FieldCoursesFieldId },
+                        name: "FK_TeacherFieldCourses_FieldCourses_FieldCoursesId1_FieldCoursesCourseId_FieldCoursesFieldId",
+                        columns: x => new { x.FieldCoursesId1, x.FieldCoursesCourseId, x.FieldCoursesFieldId },
                         principalTable: "FieldCourses",
-                        principalColumns: new[] { "CourseId", "FieldId" },
+                        principalColumns: new[] { "Id", "CourseId", "FieldId" },
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -419,10 +416,59 @@ namespace gis_final.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "Confirm", "Create", "Delete", "Title", "Update", "View" },
+                values: new object[,]
+                {
+                    { 1, true, true, true, "Admin", true, true },
+                    { 2, true, true, true, "Teacher", true, true },
+                    { 3, true, true, true, "Assistant", true, true },
+                    { 4, true, true, true, "Student", true, true }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Tags",
+                columns: new[] { "Id", "Title" },
+                values: new object[,]
+                {
+                    { 1, "Profesör" },
+                    { 2, "Döçent" },
+                    { 3, "Dr. Öğr. Üyesi" },
+                    { 4, "Araştırma Görevlisi" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Email", "FirstName", "IdentityNumber", "LastName", "Password", "PhoneNumber", "UserNumber", "UserStatus" },
+                values: new object[,]
+                {
+                    { 1, "yashar", null, null, null, "123", null, null, 0 },
+                    { 2, "safak", null, null, null, "123", null, null, 0 },
+                    { 3, "nese", null, null, null, "123", null, null, 0 },
+                    { 4, "defne", null, null, null, "123", null, null, 0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "UserRoles",
+                columns: new[] { "UserId", "RoleId", "Confirm", "Create", "Delete", "Update", "View" },
+                values: new object[,]
+                {
+                    { 1, 1, true, true, true, true, true },
+                    { 2, 2, true, true, true, true, true },
+                    { 3, 3, true, true, true, true, true },
+                    { 4, 4, true, true, true, true, true }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Addresses_UserId",
                 table: "Addresses",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FieldCourses_CourseId",
+                table: "FieldCourses",
+                column: "CourseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_FieldCourses_FieldId",
@@ -443,12 +489,6 @@ namespace gis_final.Migrations
                 name: "IX_Schedules_YearTermId",
                 table: "Schedules",
                 column: "YearTermId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StudentConselors_UserId",
-                table: "StudentConselors",
-                column: "UserId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_StudentDegrees_UserId",
@@ -482,9 +522,9 @@ namespace gis_final.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TeacherFieldCourses_FieldCoursesCourseId_FieldCoursesFieldId",
+                name: "IX_TeacherFieldCourses_FieldCoursesId1_FieldCoursesCourseId_FieldCoursesFieldId",
                 table: "TeacherFieldCourses",
-                columns: new[] { "FieldCoursesCourseId", "FieldCoursesFieldId" });
+                columns: new[] { "FieldCoursesId1", "FieldCoursesCourseId", "FieldCoursesFieldId" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_TeacherFields_FieldId",
@@ -497,14 +537,16 @@ namespace gis_final.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Users_Email",
+                table: "Users",
+                column: "Email",
+                unique: true,
+                filter: "[Email] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserTags_TagId",
                 table: "UserTags",
                 column: "TagId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserTags_UserId",
-                table: "UserTags",
-                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

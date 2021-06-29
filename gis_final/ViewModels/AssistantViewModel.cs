@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace gis_final.ViewModels
 {
-    public class StudentViewModel
+    public class AssistantViewModel
     {
         public User User { get; set; }
+        public string TagName { get; set; }
         public Role Roles { get; set; }
-        public string ConselorName { get; set; }
     }
 }

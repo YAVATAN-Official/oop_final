@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace gis_final.Controllers
 {
-    public class TeachersController : Controller
+    public class AssistantsController : Controller
     {
         private readonly YasharDbContext _context;
 
-        public TeachersController(YasharDbContext context)
+        public AssistantsController(YasharDbContext context)
         {
             _context = context;
         }
 
-        // GET: TeachersController
+        // GET: AssistantController
         public ActionResult Index()
         {
             var teacherViewModels = from a in _context.UserRoles.ToList()
@@ -29,8 +29,8 @@ namespace gis_final.Controllers
                                     from u in ut.DefaultIfEmpty()
                                     join d in _context.Tags.ToList() on u?.TagId equals d.Id into tt
                                     from t in tt.DefaultIfEmpty()
-                                    where a.Role.Title == "Teacher"
-                                    select new TeacherViewModel
+                                    where a.Role.Title == "Assistant"
+                                    select new AssistantViewModel
                                     {
                                         User = b,
                                         Roles = e,
@@ -39,6 +39,7 @@ namespace gis_final.Controllers
 
             return View(teacherViewModels);
         }
+
 
         // GET: TeachersController
         public async Task<ActionResult> AddTag(int id)

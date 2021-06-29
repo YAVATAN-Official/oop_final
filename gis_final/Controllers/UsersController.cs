@@ -78,6 +78,13 @@ namespace gis_final.Controllers
                         _context.UserRoles.Add(studentRole);
                         await _context.SaveChangesAsync();
                         break;
+                    case 3: // assistant
+                        Role getAssistantRole = await _context.Roles.FirstOrDefaultAsync(x => x.Title == "Assistant");
+                        UserRoles assistantRole = new UserRoles { UserId = user.Id, RoleId = getAssistantRole.Id, Confirm = true, Delete = true, Create = true, Update = true, View = true };
+
+                        _context.UserRoles.Add(assistantRole);
+                        await _context.SaveChangesAsync();
+                        break;
                     default:
                         break;
                 }

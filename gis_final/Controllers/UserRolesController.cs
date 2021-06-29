@@ -48,8 +48,7 @@ namespace gis_final.Controllers
         // GET: UserRoles/Create
         public IActionResult Create()
         {
-            ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Title");
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+            fillSelectLists();
             return View();
         }
 
@@ -62,30 +61,40 @@ namespace gis_final.Controllers
         {
             if (ModelState.IsValid)
             {
+                List<UserRoles> checkUserRoles = await _context.UserRoles.Where(x => x.UserId == userRoles.UserId && x.RoleId == userRoles.RoleId).ToListAsync();
+                foreach (var item in checkUserRoles)
+                {
+                    if (item.RoleId == userRoles.RoleId)
+                    {
+                        fillSelectLists(userRoles);
+                        ViewBag.Alert = "This role previously assigned!";
+                        return View();
+                    }
+                }
                 _context.Add(userRoles);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Title", userRoles.RoleId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", userRoles.UserId);
+            fillSelectLists(userRoles);
             return View(userRoles);
         }
 
         // GET: UserRoles/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int? roleId)
         {
-            if (id == null)
+            if (id == null || roleId == null)
             {
                 return NotFound();
             }
 
-            var userRoles = await _context.UserRoles.FindAsync(id);
+            var userRoles = await _context.UserRoles.Where(x => x.UserId == id && x.RoleId == roleId).FirstOrDefaultAsync();
             if (userRoles == null)
             {
                 return NotFound();
             }
-            ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Title", userRoles.RoleId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", userRoles.UserId);
+            User selectedUser = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+            ViewData["Email"] = selectedUser.Email;
+            fillSelectLists(userRoles);
             return View(userRoles);
         }
 
@@ -94,7 +103,7 @@ namespace gis_final.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,RoleId,View,Create,Update,Delete,Confirm")] UserRoles userRoles)
+        public async Task<IActionResult> Edit(int id, int newRoleId, [Bind("UserId,RoleId,View,Create,Update,Delete,Confirm")] UserRoles userRoles)
         {
             if (id != userRoles.UserId)
             {
@@ -105,7 +114,10 @@ namespace gis_final.Controllers
             {
                 try
                 {
-                    _context.Update(userRoles);
+                    _context.UserRoles.Remove(userRoles);
+                    await _context.SaveChangesAsync();
+                    userRoles.RoleId = newRoleId;
+                    _context.Add(userRoles);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -119,17 +131,17 @@ namespace gis_final.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Title", userRoles.RoleId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", userRoles.UserId);
+            fillSelectLists(userRoles);
             return View(userRoles);
         }
 
         // GET: UserRoles/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, int? roleId)
         {
-            if (id == null)
+            if (id == null || roleId == null)
             {
                 return NotFound();
             }
@@ -149,9 +161,9 @@ namespace gis_final.Controllers
         // POST: UserRoles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, int roleId)
         {
-            var userRoles = await _context.UserRoles.FindAsync(id);
+            var userRoles = await _context.UserRoles.FirstOrDefaultAsync(x => x.UserId == id && x.RoleId == roleId);
             _context.UserRoles.Remove(userRoles);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -160,6 +172,18 @@ namespace gis_final.Controllers
         private bool UserRolesExists(int id)
         {
             return _context.UserRoles.Any(e => e.UserId == id);
+        }
+
+        private void fillSelectLists()
+        {
+            ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Title");
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email");
+        }
+
+        private void fillSelectLists(UserRoles userRoles)
+        {
+            ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Title", userRoles.RoleId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", userRoles.UserId);
         }
     }
 }

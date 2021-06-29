@@ -1,0 +1,66 @@
+﻿@model IEnumerable<gis_final.Models.UserRoles>
+
+@{
+    ViewData["Title"] = "AssignConselor";
+}
+
+<h1>AssignConselor</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Email
+            </th>
+            <th>
+                Role
+            </th>
+            <th>
+                First Name
+            </th>
+            <th>
+                Last Name
+            </th>
+            <th>
+                Phone Number
+            </th>
+            <th>
+                Select Conselor
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.PhoneNumber)
+            </td>
+            <td>
+                <form asp-action="AssignConselor" method="post">
+                    <input type="hidden" name="teacherId" value="@item.User.Id" />
+                    <input type="hidden" name="studentId" value="@ViewBag.StudentId" />
+                    <button class="btn">
+                        <i class="fa fa-plus text-success"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
