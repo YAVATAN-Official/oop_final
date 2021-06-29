@@ -30,47 +30,47 @@
             <th>
                 @Html.DisplayNameFor(model => model.User.Email)
             </th>
-            <th>Role</th>
-            <th>Tag</th>
+            <th>
+                Assign Conselor
+            </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.UserNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.IdentityNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.PhoneNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Roles.Title)
-                </td>
-                <td>
-                    @if (item.TagName == "Unknown")
-                    {
-                        <a asp-action="AddTag" asp-route-id="@item.User.Id"><i class="fa fa-plus text-success"></i></a>
-                    }
-                    else
-                    {
-                        @Html.DisplayFor(modelItem => item.TagName)
-                        <span> &nbsp</span> <a asp-action="AddTag" asp-route-id="@item.User.Id"><i class="fa fa-edit"></i></a>
-                    }
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.UserNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.IdentityNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Email)
+            </td>
+
+            <td>
+                @if (item.ConselorName == "Unknown")
+                {
+                    <a asp-action="AssignConselor" asp-route-id="@item.User.Id"><i class="fa fa-plus text-success"></i></a>
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.ConselorName)
+                    <span> &nbsp</span> <a asp-action="AssignConselor" asp-route-id="@item.User.Id"><i class="fa fa-edit"></i></a>
+                    <span> &nbsp</span> <a asp-action="RemoveConselor" asp-route-id="@item.User.Id"><i class="fa fa-trash text-danger"></i></a>
+                }
+            </td>
+        </tr>
         }
     </tbody>
 </table>

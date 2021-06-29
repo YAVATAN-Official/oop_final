@@ -115,16 +115,18 @@ namespace gis_final.Migrations
 
             modelBuilder.Entity("gis_final.Models.FieldCourses", b =>
                 {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
                     b.Property<int>("FieldId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.HasKey("Id", "CourseId", "FieldId");
 
-                    b.HasKey("CourseId", "FieldId");
+                    b.HasIndex("CourseId");
 
                     b.HasIndex("FieldId");
 
@@ -160,6 +162,48 @@ namespace gis_final.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Confirm = true,
+                            Create = true,
+                            Delete = true,
+                            Title = "Admin",
+                            Update = true,
+                            View = true
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Confirm = true,
+                            Create = true,
+                            Delete = true,
+                            Title = "Teacher",
+                            Update = true,
+                            View = true
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Confirm = true,
+                            Create = true,
+                            Delete = true,
+                            Title = "Assistant",
+                            Update = true,
+                            View = true
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Confirm = true,
+                            Create = true,
+                            Delete = true,
+                            Title = "Student",
+                            Update = true,
+                            View = true
+                        });
                 });
 
             modelBuilder.Entity("gis_final.Models.Schedule", b =>
@@ -195,21 +239,13 @@ namespace gis_final.Migrations
 
             modelBuilder.Entity("gis_final.Models.StudentConselor", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<int>("TeacherId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasKey("UserId");
 
                     b.ToTable("StudentConselors");
                 });
@@ -284,6 +320,28 @@ namespace gis_final.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tags");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Title = "Profesör"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Title = "Döçent"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Title = "Dr. Öğr. Üyesi"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Title = "Araştırma Görevlisi"
+                        });
                 });
 
             modelBuilder.Entity("gis_final.Models.TeacherCourseResearchAssistant", b =>
@@ -340,6 +398,9 @@ namespace gis_final.Migrations
                     b.Property<int>("FieldCoursesId")
                         .HasColumnType("int");
 
+                    b.Property<int>("FieldCoursesId1")
+                        .HasColumnType("int");
+
                     b.Property<int?>("FieldId")
                         .HasColumnType("int");
 
@@ -358,7 +419,7 @@ namespace gis_final.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("FieldCoursesCourseId", "FieldCoursesFieldId");
+                    b.HasIndex("FieldCoursesId1", "FieldCoursesCourseId", "FieldCoursesFieldId");
 
                     b.ToTable("TeacherFieldCourses");
                 });
@@ -371,7 +432,7 @@ namespace gis_final.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
@@ -396,7 +457,41 @@ namespace gis_final.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasFilter("[Email] IS NOT NULL");
+
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "yashar",
+                            Password = "123",
+                            UserStatus = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "safak",
+                            Password = "123",
+                            UserStatus = 0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Email = "nese",
+                            Password = "123",
+                            UserStatus = 0
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Email = "defne",
+                            Password = "123",
+                            UserStatus = 0
+                        });
                 });
 
             modelBuilder.Entity("gis_final.Models.UserRoles", b =>
@@ -427,26 +522,61 @@ namespace gis_final.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("UserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 1,
+                            Confirm = true,
+                            Create = true,
+                            Delete = true,
+                            Update = true,
+                            View = true
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            RoleId = 2,
+                            Confirm = true,
+                            Create = true,
+                            Delete = true,
+                            Update = true,
+                            View = true
+                        },
+                        new
+                        {
+                            UserId = 3,
+                            RoleId = 3,
+                            Confirm = true,
+                            Create = true,
+                            Delete = true,
+                            Update = true,
+                            View = true
+                        },
+                        new
+                        {
+                            UserId = 4,
+                            RoleId = 4,
+                            Confirm = true,
+                            Create = true,
+                            Delete = true,
+                            Update = true,
+                            View = true
+                        });
                 });
 
             modelBuilder.Entity("gis_final.Models.UserTags", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<int>("TagId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "TagId");
 
                     b.HasIndex("TagId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("UserTags");
                 });
@@ -597,7 +727,7 @@ namespace gis_final.Migrations
 
                     b.HasOne("gis_final.Models.FieldCourses", "FieldCourses")
                         .WithMany("TeacherFieldCourses")
-                        .HasForeignKey("FieldCoursesCourseId", "FieldCoursesFieldId")
+                        .HasForeignKey("FieldCoursesId1", "FieldCoursesCourseId", "FieldCoursesFieldId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

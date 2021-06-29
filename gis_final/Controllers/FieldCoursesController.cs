@@ -36,7 +36,7 @@ namespace gis_final.Controllers
             var fieldCourses = await _context.FieldCourses
                 .Include(f => f.Course)
                 .Include(f => f.Field)
-                .FirstOrDefaultAsync(m => m.CourseId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (fieldCourses == null)
             {
                 return NotFound();
@@ -48,8 +48,8 @@ namespace gis_final.Controllers
         // GET: FieldCourses/Create
         public IActionResult Create()
         {
-            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Id");
-            ViewData["FieldId"] = new SelectList(_context.Fields, "Id", "Id");
+            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Title");
+            ViewData["FieldId"] = new SelectList(_context.Fields, "Id", "Title");
             return View();
         }
 
@@ -66,8 +66,8 @@ namespace gis_final.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Id", fieldCourses.CourseId);
-            ViewData["FieldId"] = new SelectList(_context.Fields, "Id", "Id", fieldCourses.FieldId);
+            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Title", fieldCourses.CourseId);
+            ViewData["FieldId"] = new SelectList(_context.Fields, "Id", "Title", fieldCourses.FieldId);
             return View(fieldCourses);
         }
 
@@ -84,8 +84,8 @@ namespace gis_final.Controllers
             {
                 return NotFound();
             }
-            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Id", fieldCourses.CourseId);
-            ViewData["FieldId"] = new SelectList(_context.Fields, "Id", "Id", fieldCourses.FieldId);
+            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Title", fieldCourses.CourseId);
+            ViewData["FieldId"] = new SelectList(_context.Fields, "Id", "Title", fieldCourses.FieldId);
             return View(fieldCourses);
         }
 
@@ -96,7 +96,7 @@ namespace gis_final.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("FieldId,CourseId,Id")] FieldCourses fieldCourses)
         {
-            if (id != fieldCourses.CourseId)
+            if (id != fieldCourses.Id)
             {
                 return NotFound();
             }
@@ -110,7 +110,7 @@ namespace gis_final.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FieldCoursesExists(fieldCourses.CourseId))
+                    if (!FieldCoursesExists(fieldCourses.Id))
                     {
                         return NotFound();
                     }
@@ -121,8 +121,8 @@ namespace gis_final.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Id", fieldCourses.CourseId);
-            ViewData["FieldId"] = new SelectList(_context.Fields, "Id", "Id", fieldCourses.FieldId);
+            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Title", fieldCourses.CourseId);
+            ViewData["FieldId"] = new SelectList(_context.Fields, "Id", "Title", fieldCourses.FieldId);
             return View(fieldCourses);
         }
 
@@ -137,7 +137,7 @@ namespace gis_final.Controllers
             var fieldCourses = await _context.FieldCourses
                 .Include(f => f.Course)
                 .Include(f => f.Field)
-                .FirstOrDefaultAsync(m => m.CourseId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (fieldCourses == null)
             {
                 return NotFound();
@@ -159,7 +159,7 @@ namespace gis_final.Controllers
 
         private bool FieldCoursesExists(int id)
         {
-            return _context.FieldCourses.Any(e => e.CourseId == id);
+            return _context.FieldCourses.Any(e => e.Id == id);
         }
     }
 }

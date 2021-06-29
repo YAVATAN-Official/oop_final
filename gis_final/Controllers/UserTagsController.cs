@@ -49,7 +49,7 @@ namespace gis_final.Controllers
         public IActionResult Create()
         {
             ViewData["TagId"] = new SelectList(_context.Tags, "Id", "Title");
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email");
             return View();
         }
 

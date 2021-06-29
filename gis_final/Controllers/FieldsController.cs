@@ -47,7 +47,7 @@ namespace gis_final.Controllers
         // GET: Fields/Create
         public IActionResult Create()
         {
-            ViewData["FacultyId"] = new SelectList(_context.Faculties, "Id", "Id");
+            ViewData["FacultyId"] = new SelectList(_context.Faculties, "Id", "Title");
             return View();
         }
 
@@ -64,7 +64,7 @@ namespace gis_final.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FacultyId"] = new SelectList(_context.Faculties, "Id", "Id", @field.FacultyId);
+            ViewData["FacultyId"] = new SelectList(_context.Faculties, "Id", "Title", @field.FacultyId);
             return View(@field);
         }
 
@@ -81,7 +81,7 @@ namespace gis_final.Controllers
             {
                 return NotFound();
             }
-            ViewData["FacultyId"] = new SelectList(_context.Faculties, "Id", "Id", @field.FacultyId);
+            ViewData["FacultyId"] = new SelectList(_context.Faculties, "Id", "Title", @field.FacultyId);
             return View(@field);
         }
 
@@ -117,7 +117,7 @@ namespace gis_final.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FacultyId"] = new SelectList(_context.Faculties, "Id", "Id", @field.FacultyId);
+            ViewData["FacultyId"] = new SelectList(_context.Faculties, "Id", "Title", @field.FacultyId);
             return View(@field);
         }
 
