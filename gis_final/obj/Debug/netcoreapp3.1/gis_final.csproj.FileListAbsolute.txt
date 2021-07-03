@@ -243,3 +243,4 @@ D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\D
 D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\gis_final.pdb
 D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\gis_final.genruntimeconfig.cache
 D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\gis_final.csprojAssemblyReference.cache
+D:\ders\homeworks\OOP\Final\general_information_system\gis_final\gis_final\obj\Debug\netcoreapp3.1\Razor\Views\View.cshtml.g.cs

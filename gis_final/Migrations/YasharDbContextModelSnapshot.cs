@@ -305,6 +305,20 @@ namespace gis_final.Migrations
                         .IsUnique();
 
                     b.ToTable("StudentGraduationStatuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            GraduationStatusId = 1,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 2,
+                            GraduationStatusId = 1,
+                            UserId = 4
+                        });
                 });
 
             modelBuilder.Entity("gis_final.Models.Tag", b =>

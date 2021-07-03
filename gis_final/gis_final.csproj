@@ -9,8 +9,12 @@
     <Compile Remove="Migrations\20210629232713_initial_migration.Designer.cs" />
     <Compile Remove="Migrations\20210702162143_add_pk_FC_model.cs" />
     <Compile Remove="Migrations\20210702162143_add_pk_FC_model.Designer.cs" />
+    <Compile Remove="Migrations\20210702162806_init-migration.cs" />
+    <Compile Remove="Migrations\20210702162806_init-migration.Designer.cs" />
     <Compile Remove="Migrations\20210703101121_add_many_to_many_user_tag.cs" />
     <Compile Remove="Migrations\20210703101121_add_many_to_many_user_tag.Designer.cs" />
+    <Compile Remove="Migrations\20210703111759_initial_migration.cs" />
+    <Compile Remove="Migrations\20210703111759_initial_migration.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
