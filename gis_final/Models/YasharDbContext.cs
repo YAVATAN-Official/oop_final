@@ -106,6 +106,11 @@ namespace gis_final.Models
                 new UserRoles { UserId = 4, RoleId = 4, Create = true, Delete = true, Confirm = true, View = true, Update = true }
                 );
 
+            modelBuilder.Entity<StudentGraduationStatus>().HasData(
+                new StudentGraduationStatus { Id = 1, UserId = 3, GraduationStatusId = EnumStudentGraduationStatus.Undergraduate },
+                new StudentGraduationStatus { Id = 2, UserId = 4, GraduationStatusId = EnumStudentGraduationStatus.Undergraduate }
+                );
+
             modelBuilder.Entity<Tag>().HasData(
                 new Tag { Id = 1, Title = "Profesör" },
                 new Tag { Id = 2, Title = "Döçent" },

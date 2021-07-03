@@ -1,9 +1,41 @@
-﻿@{ 
+﻿
+@{
     Layout = null;
 }
-<span>@ViewBag.msg</span>
-<form asp-action="Login" method="post">
-    <input type="text" name="Email" placeholder="Email" value="" />
-    <input type="password" name="Password" placeholder="Password" value="" />
-    <input type="submit" value="Login" />
-</form>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <meta name="author" content="yashar azadvatan" />
+    <link href="~/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <span>@ViewBag.msg</span>
+            <form asp-action="Login" method="post">
+                <div class="card mt-5">
+                    <div class="card-header">Login</div>
+                    <div class="card-body">
+                        <i class="fas fa-user"></i>
+                        <input type="text" name="Email" placeholder="Email" class="form-control" value="" />
+
+                        <i class="fas fa-key"></i>
+                        <input type="password" name="Password" placeholder="Password" class="form-control" value="" />
+                        <br />
+                        <div class="text-center">
+                            <input type="submit" value="Login" class="btn btn-primary" style="width:50%" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

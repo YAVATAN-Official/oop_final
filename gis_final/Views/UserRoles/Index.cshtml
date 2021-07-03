@@ -7,7 +7,7 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -40,7 +40,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
+                @Html.DisplayFor(modelItem => item.User.Email)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Role.Title)
@@ -61,9 +61,14 @@
                 @Html.DisplayFor(modelItem => item.Confirm)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.UserId, roleId = item.RoleId }) |
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.UserId, roleId = item.RoleId }) |
                 @Html.ActionLink("Details", "Details", new { id = item.UserId, roleId = item.RoleId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.UserId, roleId = item.RoleId })
+                @Html.ActionLink("Delete", "Delete", new { id = item.UserId, roleId = item.RoleId })*@
+               
+
+                <a asp-action="Edit" asp-route-id="@item.UserId" asp-route-roleId="@item.RoleId"> <i class="fa fa-edit"></i></a> |
+                <a asp-action="Details" asp-route-id="@item.UserId" asp-route-roleId="@item.RoleId"> <i class="fa fa-info"></i></a> |
+                <a asp-action="Delete" asp-route-id="@item.UserId" asp-route-roleId="@item.RoleId"><i class="fa fa-trash text-danger"></i></a>
             </td>
         </tr>
 }

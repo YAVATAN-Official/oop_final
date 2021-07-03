@@ -17,7 +17,7 @@
                 @ViewData["Email"]
             </div>
             <div class="form-group">
-                <label asp-for="RoleId" class="control-label"></label>
+                <label asp-for="RoleId" class="control-label">Role</label>
                 <select asp-for="RoleId" class="form-control" name="newRoleId" asp-items="ViewBag.RoleId"></select>
             </div>
             <input type="hidden" asp-for="RoleId" />

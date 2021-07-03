@@ -10,8 +10,8 @@ using gis_final.Models;
 namespace gis_final.Migrations
 {
     [DbContext(typeof(YasharDbContext))]
-    [Migration("20210702162806_init-migration")]
-    partial class initmigration
+    [Migration("20210703111902_initial_migration")]
+    partial class initial_migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -307,6 +307,20 @@ namespace gis_final.Migrations
                         .IsUnique();
 
                     b.ToTable("StudentGraduationStatuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            GraduationStatusId = 1,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 2,
+                            GraduationStatusId = 1,
+                            UserId = 4
+                        });
                 });
 
             modelBuilder.Entity("gis_final.Models.Tag", b =>

@@ -4,28 +4,25 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Assistants</h1>
+<h3>Assistants</h3>
 
 <p>
-    <a asp-action="Create" asp-controller="Users" asp-route-userType="3">Create New</a>
+    <a asp-action="Create" asp-controller="Users" asp-route-userType="3" class="btn btn-primary">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.User.FirstName)
+                Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User.LastName)
+                Family
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User.UserNumber)
+                Id
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User.IdentityNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User.PhoneNumber)
+                Phone Number
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.User.Email)
@@ -46,9 +43,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.User.UserNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.IdentityNumber)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.User.PhoneNumber)

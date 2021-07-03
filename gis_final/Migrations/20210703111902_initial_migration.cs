@@ -2,7 +2,7 @@
 
 namespace gis_final.Migrations
 {
-    public partial class initmigration : Migration
+    public partial class initial_migration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -445,6 +445,15 @@ namespace gis_final.Migrations
                     { 2, "safak", null, null, null, "123", null, null, 0 },
                     { 3, "nese", null, null, null, "123", null, null, 0 },
                     { 4, "defne", null, null, null, "123", null, null, 0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "StudentGraduationStatuses",
+                columns: new[] { "Id", "GraduationStatusId", "UserId" },
+                values: new object[,]
+                {
+                    { 1, 1, 3 },
+                    { 2, 1, 4 }
                 });
 
             migrationBuilder.InsertData(
