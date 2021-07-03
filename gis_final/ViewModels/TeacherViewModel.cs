@@ -11,5 +11,6 @@ namespace gis_final.ViewModels
         public User User { get; set; }
         public string TagName { get; set; }
         public Role Roles { get; set; }
+        public string FieldName { get; set; }
     }
 }

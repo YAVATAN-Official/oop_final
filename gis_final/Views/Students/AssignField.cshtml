@@ -1,0 +1,42 @@
+﻿@model IEnumerable<gis_final.Models.Field>
+
+@{
+    ViewData["Title"] = "Assign Field";
+}
+
+<h1>Assign Field</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Faculty)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Faculty.Id)
+            </td>
+            <td>
+                <form asp-action="AssignField" method="post">
+                    <input type="hidden" name="fieldId" value="@item.Id" />
+                    <input type="hidden" name="studentId" value="@ViewBag.StudentId" />
+                    <button class="btn">
+                        <i class="fa fa-plus text-success"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

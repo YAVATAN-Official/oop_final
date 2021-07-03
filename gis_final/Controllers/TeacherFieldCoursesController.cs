@@ -45,9 +45,20 @@ namespace gis_final.Controllers
         }
 
         // GET: TeacherFieldCourses/Create
-        public IActionResult Create()
+        public IActionResult Create(int? teacherId, int? fcId)
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+            if (teacherId == null || fcId == null)
+            {
+                return NotFound();
+            }
+
+            User teacher = _context.Users.FirstOrDefault(x => x.Id == teacherId);
+            ViewData["User"] = teacher.Email;
+            ViewBag.teacherId = teacherId;
+            ViewBag.fcId = fcId;
+            FieldCourses fc = _context.FieldCourses.Include(f => f.Field).Include(c => c.Course).FirstOrDefault(x => x.FieldId == fcId);
+            ViewBag.Fielc = fc.Field.Title;
+            ViewBag.Course = fc.Course.Title;
             return View();
         }
 
@@ -56,16 +67,39 @@ namespace gis_final.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,FieldCoursesId,time,DayId,StatusId,Id")] TeacherFieldCourse teacherFieldCourse)
+        public async Task<IActionResult> Create(int UserId, int FieldCoursesId, string time, EnumDays DayId, EnumStatus StatusId)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(teacherFieldCourse);
+                TeacherFieldCourse tfc = new TeacherFieldCourse
+                {
+                    FieldCoursesId = FieldCoursesId,
+                    DayId = DayId,
+                    StatusId = StatusId,
+                    time = time,
+                    UserId = UserId
+                };
+                _context.Add(tfc);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", teacherFieldCourse.UserId);
-            return View(teacherFieldCourse);
+
+            User teacher = _context.Users.FirstOrDefault(x => x.Id == UserId);
+            ViewData["User"] = teacher.Email;
+            ViewBag.teacherId = UserId;
+            ViewBag.fcId = FieldCoursesId;
+            FieldCourses fc = _context.FieldCourses.Include(f => f.Field).Include(c => c.Course).FirstOrDefault(x => x.FieldId == FieldCoursesId);
+            ViewBag.Fielc = fc.Field.Title;
+            ViewBag.Course = fc.Course.Title;
+            TeacherFieldCourse tfc1 = new TeacherFieldCourse
+            {
+                FieldCoursesId = FieldCoursesId,
+                DayId = DayId,
+                StatusId = StatusId,
+                time = time,
+                UserId = UserId
+            };
+            return View(tfc1);
         }
 
         // GET: TeacherFieldCourses/Edit/5

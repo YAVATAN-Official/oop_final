@@ -2,7 +2,7 @@
 
 namespace gis_final.Migrations
 {
-    public partial class initial_migration : Migration
+    public partial class initmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -130,7 +130,7 @@ namespace gis_final.Migrations
                     State = table.Column<string>(nullable: true),
                     Line1 = table.Column<string>(nullable: false),
                     Line2 = table.Column<string>(nullable: true),
-                    PostalCode = table.Column<int>(maxLength: 12, nullable: false),
+                    PostalCode = table.Column<int>(nullable: false),
                     UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -259,13 +259,14 @@ namespace gis_final.Migrations
                 name: "FieldCourses",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     FieldId = table.Column<int>(nullable: false),
                     CourseId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FieldCourses", x => new { x.Id, x.CourseId, x.FieldId });
+                    table.PrimaryKey("PK_FieldCourses", x => x.Id);
                     table.ForeignKey(
                         name: "FK_FieldCourses_Courses_CourseId",
                         column: x => x.CourseId,
@@ -336,9 +337,6 @@ namespace gis_final.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(nullable: false),
                     FieldCoursesId = table.Column<int>(nullable: false),
-                    FieldCoursesId1 = table.Column<int>(nullable: false),
-                    FieldCoursesCourseId = table.Column<int>(nullable: false),
-                    FieldCoursesFieldId = table.Column<int>(nullable: false),
                     time = table.Column<string>(nullable: true),
                     DayId = table.Column<int>(nullable: false),
                     StatusId = table.Column<int>(nullable: false),
@@ -347,6 +345,12 @@ namespace gis_final.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TeacherFieldCourses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TeacherFieldCourses_FieldCourses_FieldCoursesId",
+                        column: x => x.FieldCoursesId,
+                        principalTable: "FieldCourses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_TeacherFieldCourses_Fields_FieldId",
                         column: x => x.FieldId,
@@ -358,12 +362,6 @@ namespace gis_final.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TeacherFieldCourses_FieldCourses_FieldCoursesId1_FieldCoursesCourseId_FieldCoursesFieldId",
-                        columns: x => new { x.FieldCoursesId1, x.FieldCoursesCourseId, x.FieldCoursesFieldId },
-                        principalTable: "FieldCourses",
-                        principalColumns: new[] { "Id", "CourseId", "FieldId" },
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -512,6 +510,11 @@ namespace gis_final.Migrations
                 column: "TeacherFieldCourseId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TeacherFieldCourses_FieldCoursesId",
+                table: "TeacherFieldCourses",
+                column: "FieldCoursesId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TeacherFieldCourses_FieldId",
                 table: "TeacherFieldCourses",
                 column: "FieldId");
@@ -520,11 +523,6 @@ namespace gis_final.Migrations
                 name: "IX_TeacherFieldCourses_UserId",
                 table: "TeacherFieldCourses",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TeacherFieldCourses_FieldCoursesId1_FieldCoursesCourseId_FieldCoursesFieldId",
-                table: "TeacherFieldCourses",
-                columns: new[] { "FieldCoursesId1", "FieldCoursesCourseId", "FieldCoursesFieldId" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_TeacherFields_FieldId",
@@ -594,10 +592,10 @@ namespace gis_final.Migrations
                 name: "Tags");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "FieldCourses");
 
             migrationBuilder.DropTable(
-                name: "FieldCourses");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Courses");

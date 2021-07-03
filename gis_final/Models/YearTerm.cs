@@ -13,7 +13,7 @@ namespace gis_final.Models
 
     public class YearTerm : BaseEntity
     {
-        // e. 2020-2021
+        // ex. 2020-2021
         public string Year { get; set; }
         public EnumPeriod TermId { get; set; }
     }

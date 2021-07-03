@@ -11,7 +11,9 @@ namespace gis_final.Models
         [Display(Name = "Master With Thesis")]
         MasterWithThesis = 0,
         [Display(Name = "Master Without Thesis")]
-        MasterWithoutThesis = 1
+        MasterWithoutThesis = 1,
+        [Display(Name = "Ph. D.")]
+        Doctora = 2
     }
 
     public class StudentDegree : BaseEntity

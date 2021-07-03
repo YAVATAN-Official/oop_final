@@ -29,12 +29,17 @@ namespace gis_final.Controllers
                                     from u in ut.DefaultIfEmpty()
                                     join d in _context.Tags.ToList() on u?.TagId equals d.Id into tt
                                     from t in tt.DefaultIfEmpty()
+                                    join tf in _context.TeacherFields.ToList() on b.Id equals tf.UserId into tfs
+                                    from tfx in tfs.DefaultIfEmpty()
+                                    join aaa in _context.Fields.ToList() on tfx?.FieldId equals aaa.Id into ssf
+                                    from uus in ssf.DefaultIfEmpty()
                                     where a.Role.Title == "Teacher"
                                     select new TeacherViewModel
                                     {
                                         User = b,
                                         Roles = e,
-                                        TagName = t?.Title ?? "Unknown"
+                                        TagName = t?.Title ?? "Unknown",
+                                        FieldName = uus?.Title ?? "Unknown"
                                     };
 
             return View(teacherViewModels);
@@ -84,6 +89,62 @@ namespace gis_final.Controllers
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+        // GET: TeachersController
+        public async Task<ActionResult> AssignField(int id)
+        {
+            ViewBag.TeacherId = id;
+            return View(await _context.Fields.ToListAsync());
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AssignField(int fieldId = 0, int teacherId = 0)
+        {
+            if (fieldId == 0 || teacherId == 0)
+            {
+                return NotFound();
+            }
+
+            TeacherField getTeacher = await _context.TeacherFields.FirstOrDefaultAsync(x => x.UserId == teacherId);
+            if (getTeacher != null)
+            {
+                _context.TeacherFields.Remove(getTeacher);
+                await _context.SaveChangesAsync();
+            }
+
+            var newField = new TeacherField { UserId = teacherId, FieldId = fieldId };
+            _context.TeacherFields.Add(newField);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<ActionResult> RemoveField(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            TeacherField getUser = await _context.TeacherFields.Where(x => x.UserId == id).FirstOrDefaultAsync();
+            if (getUser != null)
+            {
+                _context.TeacherFields.Remove(getUser);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<ActionResult> AssignFieldCourses(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            ViewBag.teacherId = id;
+            return View(await _context.FieldCourses.Include(x => x.Field).Include(f => f.Course).ToListAsync());
         }
     }
 }

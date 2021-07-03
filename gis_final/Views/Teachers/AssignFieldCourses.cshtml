@@ -1,0 +1,37 @@
+﻿@model IEnumerable<gis_final.Models.FieldCourses>
+
+@{
+    ViewData["Title"] = "AssignFielCourses";
+}
+
+<h1>Assign Fiel Courses</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Field)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Course)
+            </th>
+            <th>Add</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Field.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.Title)
+                </td>
+                <td>
+                    <a asp-action="Create" asp-controller="TeacherFieldCourses" asp-route-teacherId="@ViewBag.teacherId" asp-route-fcId="@item.Id"><i class="fa fa-check text-success"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
