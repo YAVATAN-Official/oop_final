@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using gis_final.Models;
+using Microsoft.AspNetCore.Routing;
 
 namespace gis_final.Controllers
 {
@@ -19,9 +20,10 @@ namespace gis_final.Controllers
         }
 
         // GET: Addresses
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            var yasharDbContext = _context.Addresses.Include(a => a.User);
+            var yasharDbContext = _context.Addresses.Include(a => a.User).Where(x => x.UserId == id);
+            ViewBag.userId = id;
             return View(await yasharDbContext.ToListAsync());
         }
 
@@ -45,9 +47,15 @@ namespace gis_final.Controllers
         }
 
         // GET: Addresses/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+            if (id == null)
+            {
+                return NotFound();
+            }
+            User user = _context.Users.FirstOrDefault(x => x.Id == id);
+            ViewData["UserEmail"] = user.Email;
+            ViewData["UserId"] = user.Id;
             return View();
         }
 
@@ -56,15 +64,29 @@ namespace gis_final.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Country,City,State,Line1,Line2,PostalCode,UserId,Id")] Address address)
+        public async Task<IActionResult> Create(string Title, string Country, string City, string State, string Line1,
+            string Line2, int PostalCode, int UserId)
         {
+            Address address = new Address
+            {
+                UserId = UserId,
+                Title = Title,
+                Country = Country,
+                City = City,
+                State = State,
+                Line1 = Line1,
+                Line2 = Line2,
+                PostalCode = PostalCode
+            };
             if (ModelState.IsValid)
             {
                 _context.Add(address);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Addresses", new RouteValueDictionary(new { Id = address.UserId }));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", address.UserId);
+            User user = _context.Users.FirstOrDefault(x => x.Id == address.UserId);
+            ViewData["UserEmail"] = user.Email;
+            ViewData["UserId"] = user.Id;
             return View(address);
         }
 
@@ -81,7 +103,9 @@ namespace gis_final.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", address.UserId);
+            User user = await _context.Users.FirstOrDefaultAsync(x => x.Id == address.UserId);
+            ViewData["UserEmail"] = user.Email;
+            ViewData["UserId"] = user.Id;
             return View(address);
         }
 
@@ -115,9 +139,11 @@ namespace gis_final.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Addresses", new RouteValueDictionary(new { Id = address.UserId }));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", address.UserId);
+            User user = _context.Users.FirstOrDefault(x => x.Id == address.UserId);
+            ViewData["UserEmail"] = user.Email;
+            ViewData["UserId"] = user.Id;
             return View(address);
         }
 
@@ -148,7 +174,7 @@ namespace gis_final.Controllers
             var address = await _context.Addresses.FindAsync(id);
             _context.Addresses.Remove(address);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Addresses", new RouteValueDictionary(new { Id = address.UserId }));
         }
 
         private bool AddressExists(int id)

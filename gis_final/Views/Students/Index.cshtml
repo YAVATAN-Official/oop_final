@@ -33,44 +33,77 @@
             <th>
                 Assign Conselor
             </th>
+            <th>
+                Assign Field
+            </th>
+            <th>
+                Graduation Status
+            </th>
+            <th>
+                Add Degree
+            </th>
+            <th>
+                Add Address
+            </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.UserNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.IdentityNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Email)
-            </td>
-
-            <td>
-                @if (item.ConselorName == "Unknown")
-                {
-                    <a asp-action="AssignConselor" asp-route-id="@item.User.Id"><i class="fa fa-plus text-success"></i></a>
-                }
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.ConselorName)
-                    <span> &nbsp</span> <a asp-action="AssignConselor" asp-route-id="@item.User.Id"><i class="fa fa-edit"></i></a>
-                    <span> &nbsp</span> <a asp-action="RemoveConselor" asp-route-id="@item.User.Id"><i class="fa fa-trash text-danger"></i></a>
-                }
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.UserNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.IdentityNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Email)
+                </td>
+                <td>
+                    @if (item.ConselorName == "Unknown")
+                    {
+                        <a asp-action="AssignConselor" asp-route-id="@item.User.Id"><i class="fa fa-plus text-success"></i></a>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.ConselorName)
+                        <span> &nbsp</span> <a asp-action="AssignConselor" asp-route-id="@item.User.Id"><i class="fa fa-edit"></i></a>
+                        <span> &nbsp</span> <a asp-action="RemoveConselor" asp-route-id="@item.User.Id"><i class="fa fa-trash text-danger"></i></a>
+                    }
+                </td>
+                <td>
+                    @if (item.FieldName == "Unknown")
+                    {
+                        <a asp-action="AssignField" asp-route-id="@item.User.Id"><i class="fa fa-plus text-success"></i></a>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.FieldName)
+                        <span> &nbsp</span> <a asp-action="AssignField" asp-route-id="@item.User.Id"><i class="fa fa-edit"></i></a>
+                        <span> &nbsp</span> <a asp-action="RemoveField" asp-route-id="@item.User.Id"><i class="fa fa-trash text-danger"></i></a>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GraduationStatus)
+                    <a asp-action="ToggleGraduationStatus" asp-route-id="@item.User.Id"><i class="fa fa-toggle-on"></i></a>
+                </td>
+                <td>
+                    <a asp-action="Index" asp-controller="StudentDegrees" asp-route-id="@item.User.Id"><i class="fa fa-plus text-success"></i></a>
+                </td>
+                <td>
+                    <a asp-action="Index" asp-controller="Addresses" asp-route-id="@item.User.Id"><i class="fa fa-plus text-success"></i></a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>

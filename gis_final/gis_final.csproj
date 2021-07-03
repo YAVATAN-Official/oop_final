@@ -5,6 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20210629232713_initial_migration.cs" />
+    <Compile Remove="Migrations\20210629232713_initial_migration.Designer.cs" />
+    <Compile Remove="Migrations\20210702162143_add_pk_FC_model.cs" />
+    <Compile Remove="Migrations\20210702162143_add_pk_FC_model.Designer.cs" />
+    <Compile Remove="Migrations\20210703101121_add_many_to_many_user_tag.cs" />
+    <Compile Remove="Migrations\20210703101121_add_many_to_many_user_tag.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.16" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.15">

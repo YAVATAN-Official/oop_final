@@ -57,8 +57,31 @@ namespace gis_final.Models
 
             modelBuilder.Entity<StudentField>().HasKey(k => new { k.UserId, k.FieldId });
             modelBuilder.Entity<TeacherField>().HasKey(k => new { k.UserId, k.FieldId });
-            modelBuilder.Entity<FieldCourses>().HasKey(k => new { k.Id, k.CourseId, k.FieldId });
+            modelBuilder.Entity<FieldCourses>().HasKey(k => new { k.CourseId, k.FieldId });
+
+            modelBuilder.Entity<FieldCourses>()
+                .HasOne(bc => bc.Field)
+                .WithMany(b => b.FieldCourses)
+                .HasForeignKey(bc => bc.FieldId);
+
+            modelBuilder.Entity<FieldCourses>()
+                .HasOne(bc => bc.Course)
+                .WithMany(c => c.FieldCourses)
+                .HasForeignKey(bc => bc.CourseId);
+
+            modelBuilder.Entity<FieldCourses>().HasKey(k => new { k.Id });
+
             modelBuilder.Entity<UserTags>().HasKey(k => new { k.UserId, k.TagId });
+
+            modelBuilder.Entity<UserTags>()
+                .HasOne(bc => bc.User)
+                .WithMany(b => b.UserTags)
+                .HasForeignKey(bc => bc.UserId);
+
+            modelBuilder.Entity<UserTags>()
+                .HasOne(bc => bc.Tag)
+                .WithMany(c => c.UserTags)
+                .HasForeignKey(bc => bc.TagId);
 
             modelBuilder.Entity<User>().HasIndex(x => x.Email).IsUnique();
 

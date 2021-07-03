@@ -63,7 +63,7 @@ namespace gis_final.Controllers
 
                 switch (userType)
                 {
-                    
+
                     case 1: // teacher
                         Role getTeacherRole = await _context.Roles.FirstOrDefaultAsync(x => x.Title == "Teacher");
                         UserRoles teacherRole = new UserRoles { UserId = user.Id, RoleId = getTeacherRole.Id, Confirm = true, Delete = true, Create = true, Update = true, View = true };
@@ -77,12 +77,30 @@ namespace gis_final.Controllers
 
                         _context.UserRoles.Add(studentRole);
                         await _context.SaveChangesAsync();
+
+                        // graduation status
+
+                        StudentGraduationStatus sgs = new StudentGraduationStatus { GraduationStatusId = EnumStudentGraduationStatus.Undergraduate, UserId = user.Id };
+
+
+                        _context.StudentGraduationStatuses.Add(sgs);
+                        await _context.SaveChangesAsync();
+
                         break;
                     case 3: // assistant
                         Role getAssistantRole = await _context.Roles.FirstOrDefaultAsync(x => x.Title == "Assistant");
                         UserRoles assistantRole = new UserRoles { UserId = user.Id, RoleId = getAssistantRole.Id, Confirm = true, Delete = true, Create = true, Update = true, View = true };
 
                         _context.UserRoles.Add(assistantRole);
+                        await _context.SaveChangesAsync();
+
+
+                        // graduation status
+
+                        StudentGraduationStatus sgs1 = new StudentGraduationStatus { GraduationStatusId = EnumStudentGraduationStatus.Undergraduate, UserId = user.Id };
+
+
+                        _context.StudentGraduationStatuses.Add(sgs1);
                         await _context.SaveChangesAsync();
                         break;
                     default:

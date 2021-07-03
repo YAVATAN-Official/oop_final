@@ -16,7 +16,7 @@ namespace gis_final.Models
         [Required]
         public string Line1 { get; set; }
         public string Line2 { get; set; }
-        [Required, MaxLength(12)]
+        [Required]
         public int PostalCode { get; set; }
 
         public int UserId { get; set; }

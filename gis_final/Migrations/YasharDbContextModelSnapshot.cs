@@ -40,8 +40,7 @@ namespace gis_final.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PostalCode")
-                        .HasColumnType("int")
-                        .HasMaxLength(12);
+                        .HasColumnType("int");
 
                     b.Property<string>("State")
                         .HasColumnType("nvarchar(max)");
@@ -116,7 +115,9 @@ namespace gis_final.Migrations
             modelBuilder.Entity("gis_final.Models.FieldCourses", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
@@ -124,7 +125,7 @@ namespace gis_final.Migrations
                     b.Property<int>("FieldId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id", "CourseId", "FieldId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CourseId");
 
@@ -389,16 +390,7 @@ namespace gis_final.Migrations
                     b.Property<int>("DayId")
                         .HasColumnType("int");
 
-                    b.Property<int>("FieldCoursesCourseId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FieldCoursesFieldId")
-                        .HasColumnType("int");
-
                     b.Property<int>("FieldCoursesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FieldCoursesId1")
                         .HasColumnType("int");
 
                     b.Property<int?>("FieldId")
@@ -415,11 +407,11 @@ namespace gis_final.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FieldCoursesId");
+
                     b.HasIndex("FieldId");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("FieldCoursesId1", "FieldCoursesCourseId", "FieldCoursesFieldId");
 
                     b.ToTable("TeacherFieldCourses");
                 });
@@ -715,6 +707,12 @@ namespace gis_final.Migrations
 
             modelBuilder.Entity("gis_final.Models.TeacherFieldCourse", b =>
                 {
+                    b.HasOne("gis_final.Models.FieldCourses", "FieldCourses")
+                        .WithMany("TeacherFieldCourses")
+                        .HasForeignKey("FieldCoursesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("gis_final.Models.Field", null)
                         .WithMany("TeacherFieldCourses")
                         .HasForeignKey("FieldId");
@@ -722,12 +720,6 @@ namespace gis_final.Migrations
                     b.HasOne("gis_final.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("gis_final.Models.FieldCourses", "FieldCourses")
-                        .WithMany("TeacherFieldCourses")
-                        .HasForeignKey("FieldCoursesId1", "FieldCoursesCourseId", "FieldCoursesFieldId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

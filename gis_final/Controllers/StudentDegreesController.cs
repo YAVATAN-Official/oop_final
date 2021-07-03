@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using gis_final.Models;
+using Microsoft.AspNetCore.Routing;
 
 namespace gis_final.Controllers
 {
@@ -19,9 +20,10 @@ namespace gis_final.Controllers
         }
 
         // GET: StudentDegrees
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            var yasharDbContext = _context.StudentDegrees.Include(s => s.User);
+            var yasharDbContext = _context.StudentDegrees.Include(s => s.User).Where(x => x.UserId == id);
+            ViewBag.userId = id;
             return View(await yasharDbContext.ToListAsync());
         }
 
@@ -45,9 +47,15 @@ namespace gis_final.Controllers
         }
 
         // GET: StudentDegrees/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+            if (id == null)
+            {
+                return NotFound();
+            }
+            User user = _context.Users.FirstOrDefault(x => x.Id == id);
+            ViewData["UserEmail"] = user.Email;
+            ViewData["UserId"] = user.Id;
             return View();
         }
 
@@ -56,16 +64,20 @@ namespace gis_final.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,DegreeId,Id")] StudentDegree studentDegree)
+        public async Task<IActionResult> Create(int userId, EnumDegree degreeId)
         {
             if (ModelState.IsValid)
             {
+                StudentDegree studentDegree = new StudentDegree { UserId = userId, DegreeId = degreeId };
                 _context.Add(studentDegree);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "StudentDegrees", new RouteValueDictionary(new { Id = studentDegree.UserId }));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", studentDegree.UserId);
-            return View(studentDegree);
+
+            StudentDegree studentDegree1 = await _context.StudentDegrees.FirstOrDefaultAsync(x => x.UserId == userId);
+
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", userId);
+            return View();
         }
 
         // GET: StudentDegrees/Edit/5
@@ -76,13 +88,12 @@ namespace gis_final.Controllers
                 return NotFound();
             }
 
-            var studentDegree = await _context.StudentDegrees.FindAsync(id);
-            if (studentDegree == null)
-            {
-                return NotFound();
-            }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", studentDegree.UserId);
-            return View(studentDegree);
+            StudentDegree studentDegree = await _context.StudentDegrees.Include(x => x.User).FirstOrDefaultAsync(x => x.Id == id);
+
+            User user = await _context.Users.FirstOrDefaultAsync(x => x.Id == studentDegree.UserId);
+            ViewData["UserEmail"] = user.Email;
+            ViewData["UserId"] = user.Id;
+            return View();
         }
 
         // POST: StudentDegrees/Edit/5
@@ -90,7 +101,7 @@ namespace gis_final.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,DegreeId,Id")] StudentDegree studentDegree)
+        public async Task<IActionResult> Edit(int id, int userId, [Bind("UserId,DegreeId,Id")] StudentDegree studentDegree)
         {
             if (id != studentDegree.Id)
             {
@@ -101,6 +112,7 @@ namespace gis_final.Controllers
             {
                 try
                 {
+                    studentDegree.UserId = userId;
                     _context.Update(studentDegree);
                     await _context.SaveChangesAsync();
                 }
@@ -115,9 +127,9 @@ namespace gis_final.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "StudentDegrees", new RouteValueDictionary(new { Id = studentDegree.UserId }));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", studentDegree.UserId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", studentDegree.UserId);
             return View(studentDegree);
         }
 
@@ -148,7 +160,7 @@ namespace gis_final.Controllers
             var studentDegree = await _context.StudentDegrees.FindAsync(id);
             _context.StudentDegrees.Remove(studentDegree);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "StudentDegrees", new RouteValueDictionary(new { Id = studentDegree.UserId }));
         }
 
         private bool StudentDegreeExists(int id)
