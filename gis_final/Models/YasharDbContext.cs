@@ -25,7 +25,7 @@ namespace gis_final.Models
         public DbSet<StudentField> StudentFields { get; set; }
         public DbSet<StudentGraduationStatus> StudentGraduationStatuses { get; set; }
         public DbSet<Tag> Tags { get; set; }
-        public DbSet<TeacherCourseResearchAssistant> TeacherCourseResearchAssistants { get; set; }
+        public DbSet<TeacherFieldCourseResearchAssistant> TeacherFieldCourseResearchAssistants { get; set; }
         public DbSet<TeacherField> TeacherFields { get; set; }
         public DbSet<TeacherFieldCourse> TeacherFieldCourses { get; set; }
         public DbSet<User> Users { get; set; }

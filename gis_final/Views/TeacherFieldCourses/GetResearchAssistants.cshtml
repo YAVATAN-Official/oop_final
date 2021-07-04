@@ -1,0 +1,61 @@
+﻿@model IEnumerable<gis_final.ViewModels.GetResearchAssistantViewModel>
+
+@{
+    ViewData["Title"] = "GetResearchAssistants";
+}
+
+<h1>Get Research Assistants</h1>
+
+@if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "Admin")
+{
+    <p>
+        <a asp-action="AssignResearchAssistant" class="btn btn-primary">Assign Research Assistant</a>
+    </p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Assistant.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Teacher.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Field.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Course.Title)
+            </th>
+            @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "Admin")
+            {
+                <th></th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Assistant.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Field.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.Title)
+                </td>
+                @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "Admin")
+                {
+                    <td>
+                        <a asp-action="DeleteAssistant" asp-route-id="@item.TeacherFieldCourseResearchAssistant.Id"><i class="fa fa-trash text-danger"></i></a>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

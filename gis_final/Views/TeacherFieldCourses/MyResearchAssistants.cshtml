@@ -1,0 +1,87 @@
+﻿@model IEnumerable<gis_final.Models.TeacherFieldCourseResearchAssistant>
+
+@{
+    ViewData["Title"] = "My Research Assistants";
+}
+
+<h1>My Research Assistants</h1>
+@if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "Admin")
+{
+
+    <p>
+        <a asp-action="AssignResearchAssistant" asp-route-id="@ViewBag.TeacherId" class="btn btn-primary">Add New Assistent</a>
+    </p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Family
+            </th>
+            <th>
+                Id
+            </th>
+            <th>
+                Identity Number
+            </th>
+            <th>
+                Phone Number
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.User.Email)
+            </th>*@
+            <th>
+                Status
+            </th>
+            @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "Admin")
+            {
+                <th>
+                    delete
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.User.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.UserNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.IdentityNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.UserStatus)
+                </td>*@
+                @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "Admin")
+                {
+                    <td>
+                        <a asp-action="DeleteAssistant" asp-route-id="@item.Id" asp-route-teacherId="@ViewBag.TeacherId"><i class="fa fa-trash text-danger"></i></a>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<div>
+    <a asp-action="Index">Back to Teachers</a>
+</div>
+

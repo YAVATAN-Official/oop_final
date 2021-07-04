@@ -5,10 +5,12 @@
 }
 
 <h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "Admin")
+{
+    <p>
+        <a asp-action="AssignFieldCourses" asp-controller="Teachers" asp-route-id="@ViewBag.teacherId" class="btn btn-primary">Add new Field - Course</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -16,31 +18,43 @@
                 @Html.DisplayNameFor(model => model.User)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FieldCoursesId)
+                Field
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.time)
+                Course
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DayId)
+                @Html.DisplayNameFor(model => model.Time)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StatusId)
+                Day
             </th>
-            <th></th>
+            <th>
+                Status
+            </th>
+            <th>Students</th>
+            <th>Assistants</th>
+            @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "Admin")
+            {
+                <th></th>
+            }
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.User.Email)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FieldCoursesId)
+                @Html.DisplayFor(modelItem => item.FieldCourses.Field.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.time)
+                @Html.DisplayFor(modelItem => item.FieldCourses.Course.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Time)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DayId)
@@ -49,11 +63,18 @@
                 @Html.DisplayFor(modelItem => item.StatusId)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="GetStudents" asp-route-id="@item.Id"><i class="fa fa-eye"></i></a>
             </td>
+            <td>
+                <a asp-action="GetResearchAssistants" asp-route-id="@item.Id"><i class="fa fa-eye"></i></a>
+            </td>
+            @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "Admin")
+            {
+                <td>
+                    <a asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash text-danger"></i></a>
+                </td>
+            }
         </tr>
-}
+        }
     </tbody>
 </table>

@@ -13,6 +13,5 @@ namespace gis_final.Models
         public virtual Faculty Faculty { get; set; }
 
         public virtual ICollection<FieldCourses> FieldCourses { get; set; }
-        public virtual ICollection<TeacherFieldCourse> TeacherFieldCourses { get; set; }
     }
 }

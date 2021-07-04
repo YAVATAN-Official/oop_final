@@ -12,22 +12,22 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TeacherFieldCourse)
+            Teacher - Field - Course
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TeacherFieldCourse.Id)
+            @ViewBag.TeacherFieldCourse
         </dd class>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StudentId)
+            Student 
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StudentId)
+            @ViewBag.User
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.YearTerm)
+            Year - Term
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.YearTerm.Id)
+            @ViewData["YearTerm"]
         </dd class>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Score)

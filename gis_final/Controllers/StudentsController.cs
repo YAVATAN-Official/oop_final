@@ -2,7 +2,9 @@
 using gis_final.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -116,7 +118,7 @@ namespace gis_final.Controllers
         public async Task<ActionResult> AssignField(int id)
         {
             ViewBag.StudentId = id;
-            return View(await _context.Fields.ToListAsync());
+            return View(await _context.Fields.Include(x => x.Faculty).ToListAsync());
         }
 
         [HttpPost]
@@ -156,6 +158,123 @@ namespace gis_final.Controllers
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+
+        public async Task<ActionResult> MyConselors()
+        {
+            var checkUser = await _context.StudentConselors.Include(x => x.User).Where(x => x.UserId == HttpContext.Session.GetInt32("UserID")).FirstOrDefaultAsync();
+            if (checkUser != null)
+            {
+                return NotFound();
+            }
+            var getConselor = from a in _context.StudentConselors.ToList()
+                              join b in _context.Users.ToList() on a.UserId equals b.Id
+                              join c in _context.Users.ToList() on a.TeacherId equals c.Id
+                              where b.Id == HttpContext.Session.GetInt32("UserId")
+                              select c;
+            return View(getConselor);
+        }
+
+        public ActionResult Schedule()
+        {
+            if (HttpContext.Session.GetString("Role") == "Student" || HttpContext.Session.GetString("Role") == "Assistant")
+            {
+                var s = from a in _context.Schedules.ToList()
+                        join b in _context.TeacherFieldCourses.ToList() on a.TeacherFieldCourseId equals b.Id
+                        join c in _context.FieldCourses.ToList() on b.FieldCoursesId equals c.Id
+                        join d in _context.Fields.ToList() on c.FieldId equals d.Id
+                        join e in _context.Courses.ToList() on c.CourseId equals e.Id
+                        join f in _context.Users.ToList() on a.StudentId equals f.Id
+                        join g in _context.Users.ToList() on b.UserId equals g.Id
+                        join h in _context.YearTerms.ToList() on a.YearTermId equals h.Id
+                        where a.StudentId == HttpContext.Session.GetInt32("UserId")
+                        select new ScheduleViewModel
+                        {
+                            Schedule = a,
+                            Student = f,
+                            Teacher = g,
+                            Course = e,
+                            YearTerm = h,
+                            Field = d,
+                            Score = a.Score,
+                            ScoreStatus = a.EnumScoreStatusId
+                        };
+                return View(s);
+            }
+            return NotFound();
+        }
+
+
+        public ActionResult AddSchedule()
+        {
+            if (HttpContext.Session.GetString("Role") == "Student" || HttpContext.Session.GetString("Role") == "Assistant")
+            {
+                var tfc = from a in _context.TeacherFieldCourses.ToList()
+                          join b in _context.FieldCourses.ToList() on a.FieldCoursesId equals b.Id
+                          join c in _context.Courses.ToList() on b.CourseId equals c.Id
+                          join d in _context.Fields.ToList() on b.FieldId equals d.Id
+                          join e in _context.Users.ToList() on a.UserId equals e.Id
+                          select new
+                          {
+                              Id = a.Id,
+                              MergedTeacherFieldCourse = e.Email + " - " + d.Title + " - " + c.Title
+                          };
+                ViewData["TeacherFieldCourseId"] = new SelectList(tfc, "Id", "MergedTeacherFieldCourse");
+
+                var yearTerm = from a in _context.YearTerms.ToList()
+                               select new
+                               {
+                                   Id = a.Id,
+                                   MergedYearTerm = a.Year + " - " + a.TermId
+                               };
+                ViewData["YearTermId"] = new SelectList(yearTerm, "Id", "MergedYearTerm");
+                return View();
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddSchedule(int TeacherFieldCourseId, int YearTermId)
+        {
+            if (HttpContext.Session.GetString("Role") == "Student" || HttpContext.Session.GetString("Role") == "Assistant")
+            {
+                var schedule = new Schedule
+                {
+                    EnumScoreStatusId = EnumScoreStatus.Unassigned,
+                    Score = 0,
+                    StudentId = Convert.ToInt32(HttpContext.Session.GetInt32("UserId")),
+                    TeacherFieldCourseId = TeacherFieldCourseId,
+                    YearTermId = YearTermId
+                };
+
+                _context.Schedules.Add(schedule);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Schedule));
+            }
+            return NotFound();
+        }
+         
+        public async Task<ActionResult> DeleteSchedule(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            if (HttpContext.Session.GetString("Role") == "Student" || HttpContext.Session.GetString("Role") == "Assistant")
+            {
+                var schedule = await _context.Schedules.FirstOrDefaultAsync(x => x.Id == id);
+                if (schedule == null)
+                {
+                    return NotFound();
+                }
+                 
+                _context.Schedules.Remove(schedule);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Schedule));
+            }
+            return NotFound();
         }
 
     }

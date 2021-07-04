@@ -30,6 +30,7 @@ namespace gis_final.Models
         public virtual ICollection<TeacherField> TeacherFields { get; set; }
         public virtual ICollection<StudentField> StudentFields { get; set; }
         public virtual ICollection<StudentDegree> StudentDegrees { get; set; }
+        public virtual ICollection<TeacherFieldCourseResearchAssistant> TeacherCourseResearchAssistants { get; set; }
 
         public virtual StudentConselor StudentConselor { get; set; }
         public virtual StudentGraduationStatus StudentGraduationStatus { get; set; }

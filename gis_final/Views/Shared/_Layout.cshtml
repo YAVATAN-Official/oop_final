@@ -12,7 +12,8 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="p-3">
+            <div class="row p-3">
+                <img src="~/image/logo.jpg" style="width:50px;height:50px; float:left; margin-right: 20px;" />
                 <a class="navbar-brand" asp-area="" asp-controller="Dashboard" asp-action="Index">Welcome @HttpContextAccessor.HttpContext.Session.GetString("Email")!</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -66,12 +67,29 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
                                 </li>
                             }
+                            @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "Teacher")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Teachers" asp-action="Index">Teachers</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Schedules" asp-action="Index">Schedules</a>
+                                </li>
+                            }
+                            @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "Student" || HttpContextAccessor.HttpContext.Session.GetString("Role") == "Assistant")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Students" asp-action="MyConselors">Conselor</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Students" asp-action="Schedule">Add Schedule</a>
+                                </li>
+                            }
                         }
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
-                        </li>
                     </ul>
                 </div>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Logout" style="position:absolute; right:50px; top:30px;"><i class="fa fa-power-off text-danger"></i></a>
+
             </div>
         </nav>
     </header>

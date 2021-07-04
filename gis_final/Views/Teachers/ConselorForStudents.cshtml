@@ -1,0 +1,26 @@
+﻿@model IEnumerable<gis_final.Models.StudentConselor>
+
+@{
+    ViewData["Title"] = "ConselorForStudents";
+}
+
+<h1>Conselor For Students</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Email)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

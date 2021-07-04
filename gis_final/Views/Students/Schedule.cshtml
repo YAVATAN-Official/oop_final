@@ -1,0 +1,76 @@
+﻿@model IEnumerable<gis_final.ViewModels.ScheduleViewModel>
+
+@{
+    ViewData["Title"] = "Schedule";
+}
+
+<h1>Schedule</h1>
+
+<p>
+    <a asp-action="AddSchedule" class="btn btn-primary">Add Schedule</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Teacher
+            </th>
+            <th>
+                Student
+            </th>
+            <th>
+                Field
+            </th>
+            <th>
+                Course
+            </th>
+            <th>
+                Year
+            </th>
+            <th>
+                Term
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Score)
+            </th>
+            <th>
+                Score Status
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Student.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Field.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.YearTerm.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.YearTerm.TermId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Score)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ScoreStatus)
+                </td>
+                <td>
+                    <a asp-action="DeleteSchedule" asp-route-id="@item.Schedule.Id"><i class="fa fa-trash text-danger"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
