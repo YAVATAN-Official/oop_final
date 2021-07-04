@@ -9,23 +9,23 @@ using gis_final.Models;
 
 namespace gis_final.Controllers
 {
-    public class TeacherCourseResearchAssistantsController : Controller
+    public class TeacherFieldCourseResearchAssistantsController : Controller
     {
         private readonly YasharDbContext _context;
 
-        public TeacherCourseResearchAssistantsController(YasharDbContext context)
+        public TeacherFieldCourseResearchAssistantsController(YasharDbContext context)
         {
             _context = context;
         }
 
-        // GET: TeacherCourseResearchAssistants
+        // GET: TeacherFieldCourseResearchAssistants
         public async Task<IActionResult> Index()
         {
-            var yasharDbContext = _context.TeacherCourseResearchAssistants.Include(t => t.TeacherFieldCourse);
+            var yasharDbContext = _context.TeacherFieldCourseResearchAssistants.Include(t => t.TeacherFieldCourse);
             return View(await yasharDbContext.ToListAsync());
         }
 
-        // GET: TeacherCourseResearchAssistants/Details/5
+        // GET: TeacherFieldCourseResearchAssistants/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,42 +33,42 @@ namespace gis_final.Controllers
                 return NotFound();
             }
 
-            var teacherCourseResearchAssistant = await _context.TeacherCourseResearchAssistants
+            var teacherFieldCourseResearchAssistant = await _context.TeacherFieldCourseResearchAssistants
                 .Include(t => t.TeacherFieldCourse)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (teacherCourseResearchAssistant == null)
+            if (teacherFieldCourseResearchAssistant == null)
             {
                 return NotFound();
             }
 
-            return View(teacherCourseResearchAssistant);
+            return View(teacherFieldCourseResearchAssistant);
         }
 
-        // GET: TeacherCourseResearchAssistants/Create
+        // GET: TeacherFieldCourseResearchAssistants/Create
         public IActionResult Create()
         {
             ViewData["TeacherFieldCourseId"] = new SelectList(_context.TeacherFieldCourses, "Id", "Id");
             return View();
         }
 
-        // POST: TeacherCourseResearchAssistants/Create
+        // POST: TeacherFieldCourseResearchAssistants/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ResearchAssistantId,TeacherFieldCourseId,Id")] TeacherCourseResearchAssistant teacherCourseResearchAssistant)
+        public async Task<IActionResult> Create([Bind("AssistantId,TeacherFieldCourseId,Id")] TeacherFieldCourseResearchAssistant teacherFieldCourseResearchAssistant)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(teacherCourseResearchAssistant);
+                _context.Add(teacherFieldCourseResearchAssistant);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TeacherFieldCourseId"] = new SelectList(_context.TeacherFieldCourses, "Id", "Id", teacherCourseResearchAssistant.TeacherFieldCourseId);
-            return View(teacherCourseResearchAssistant);
+            ViewData["TeacherFieldCourseId"] = new SelectList(_context.TeacherFieldCourses, "Id", "Id", teacherFieldCourseResearchAssistant.TeacherFieldCourseId);
+            return View(teacherFieldCourseResearchAssistant);
         }
 
-        // GET: TeacherCourseResearchAssistants/Edit/5
+        // GET: TeacherFieldCourseResearchAssistants/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -76,23 +76,23 @@ namespace gis_final.Controllers
                 return NotFound();
             }
 
-            var teacherCourseResearchAssistant = await _context.TeacherCourseResearchAssistants.FindAsync(id);
-            if (teacherCourseResearchAssistant == null)
+            var teacherFieldCourseResearchAssistant = await _context.TeacherFieldCourseResearchAssistants.FindAsync(id);
+            if (teacherFieldCourseResearchAssistant == null)
             {
                 return NotFound();
             }
-            ViewData["TeacherFieldCourseId"] = new SelectList(_context.TeacherFieldCourses, "Id", "Id", teacherCourseResearchAssistant.TeacherFieldCourseId);
-            return View(teacherCourseResearchAssistant);
+            ViewData["TeacherFieldCourseId"] = new SelectList(_context.TeacherFieldCourses, "Id", "Id", teacherFieldCourseResearchAssistant.TeacherFieldCourseId);
+            return View(teacherFieldCourseResearchAssistant);
         }
 
-        // POST: TeacherCourseResearchAssistants/Edit/5
+        // POST: TeacherFieldCourseResearchAssistants/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ResearchAssistantId,TeacherFieldCourseId,Id")] TeacherCourseResearchAssistant teacherCourseResearchAssistant)
+        public async Task<IActionResult> Edit(int id, [Bind("AssistantId,TeacherFieldCourseId,Id")] TeacherFieldCourseResearchAssistant teacherFieldCourseResearchAssistant)
         {
-            if (id != teacherCourseResearchAssistant.Id)
+            if (id != teacherFieldCourseResearchAssistant.Id)
             {
                 return NotFound();
             }
@@ -101,12 +101,12 @@ namespace gis_final.Controllers
             {
                 try
                 {
-                    _context.Update(teacherCourseResearchAssistant);
+                    _context.Update(teacherFieldCourseResearchAssistant);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TeacherCourseResearchAssistantExists(teacherCourseResearchAssistant.Id))
+                    if (!TeacherFieldCourseResearchAssistantExists(teacherFieldCourseResearchAssistant.Id))
                     {
                         return NotFound();
                     }
@@ -117,11 +117,11 @@ namespace gis_final.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TeacherFieldCourseId"] = new SelectList(_context.TeacherFieldCourses, "Id", "Id", teacherCourseResearchAssistant.TeacherFieldCourseId);
-            return View(teacherCourseResearchAssistant);
+            ViewData["TeacherFieldCourseId"] = new SelectList(_context.TeacherFieldCourses, "Id", "Id", teacherFieldCourseResearchAssistant.TeacherFieldCourseId);
+            return View(teacherFieldCourseResearchAssistant);
         }
 
-        // GET: TeacherCourseResearchAssistants/Delete/5
+        // GET: TeacherFieldCourseResearchAssistants/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -129,31 +129,31 @@ namespace gis_final.Controllers
                 return NotFound();
             }
 
-            var teacherCourseResearchAssistant = await _context.TeacherCourseResearchAssistants
+            var teacherFieldCourseResearchAssistant = await _context.TeacherFieldCourseResearchAssistants
                 .Include(t => t.TeacherFieldCourse)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (teacherCourseResearchAssistant == null)
+            if (teacherFieldCourseResearchAssistant == null)
             {
                 return NotFound();
             }
 
-            return View(teacherCourseResearchAssistant);
+            return View(teacherFieldCourseResearchAssistant);
         }
 
-        // POST: TeacherCourseResearchAssistants/Delete/5
+        // POST: TeacherFieldCourseResearchAssistants/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var teacherCourseResearchAssistant = await _context.TeacherCourseResearchAssistants.FindAsync(id);
-            _context.TeacherCourseResearchAssistants.Remove(teacherCourseResearchAssistant);
+            var teacherFieldCourseResearchAssistant = await _context.TeacherFieldCourseResearchAssistants.FindAsync(id);
+            _context.TeacherFieldCourseResearchAssistants.Remove(teacherFieldCourseResearchAssistant);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TeacherCourseResearchAssistantExists(int id)
+        private bool TeacherFieldCourseResearchAssistantExists(int id)
         {
-            return _context.TeacherCourseResearchAssistants.Any(e => e.Id == id);
+            return _context.TeacherFieldCourseResearchAssistants.Any(e => e.Id == id);
         }
     }
 }

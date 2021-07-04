@@ -9,7 +9,8 @@ namespace gis_final.Models
     public enum EnumScoreStatus
     {
         Passed = 0,
-        Refused = 1
+        Refused = 1,
+        Unassigned = 2
     }
 
     public class Schedule : BaseEntity

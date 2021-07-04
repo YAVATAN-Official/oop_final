@@ -359,26 +359,6 @@ namespace gis_final.Migrations
                         });
                 });
 
-            modelBuilder.Entity("gis_final.Models.TeacherCourseResearchAssistant", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ResearchAssistantId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TeacherFieldCourseId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TeacherFieldCourseId");
-
-                    b.ToTable("TeacherCourseResearchAssistants");
-                });
-
             modelBuilder.Entity("gis_final.Models.TeacherField", b =>
                 {
                     b.Property<int>("UserId")
@@ -407,27 +387,47 @@ namespace gis_final.Migrations
                     b.Property<int>("FieldCoursesId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("FieldId")
-                        .HasColumnType("int");
-
                     b.Property<int>("StatusId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Time")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
-
-                    b.Property<string>("time")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("FieldCoursesId");
 
-                    b.HasIndex("FieldId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("TeacherFieldCourses");
+                });
+
+            modelBuilder.Entity("gis_final.Models.TeacherFieldCourseResearchAssistant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AssistantId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeacherFieldCourseId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeacherFieldCourseId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TeacherFieldCourseResearchAssistants");
                 });
 
             modelBuilder.Entity("gis_final.Models.User", b =>
@@ -695,15 +695,6 @@ namespace gis_final.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("gis_final.Models.TeacherCourseResearchAssistant", b =>
-                {
-                    b.HasOne("gis_final.Models.TeacherFieldCourse", "TeacherFieldCourse")
-                        .WithMany("TeacherCourseResearchAssistants")
-                        .HasForeignKey("TeacherFieldCourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("gis_final.Models.TeacherField", b =>
                 {
                     b.HasOne("gis_final.Models.Field", "Field")
@@ -727,15 +718,24 @@ namespace gis_final.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("gis_final.Models.Field", null)
-                        .WithMany("TeacherFieldCourses")
-                        .HasForeignKey("FieldId");
-
                     b.HasOne("gis_final.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("gis_final.Models.TeacherFieldCourseResearchAssistant", b =>
+                {
+                    b.HasOne("gis_final.Models.TeacherFieldCourse", "TeacherFieldCourse")
+                        .WithMany("TeacherFieldCourseResearchAssistants")
+                        .HasForeignKey("TeacherFieldCourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("gis_final.Models.User", null)
+                        .WithMany("TeacherCourseResearchAssistants")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("gis_final.Models.UserRoles", b =>

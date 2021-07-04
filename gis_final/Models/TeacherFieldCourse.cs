@@ -24,15 +24,16 @@ namespace gis_final.Models
 
     public class TeacherFieldCourse : BaseEntity
     {
+        //Teacher
         public int UserId { get; set; }
         public virtual User User { get; set; }
         public int FieldCoursesId { get; set; }
         public virtual FieldCourses FieldCourses { get; set; }
-        public string time { get; set; }
+        public string Time { get; set; }
         public EnumDays DayId { get; set; }
         public EnumStatus StatusId { get; set; }
 
-        public virtual ICollection<TeacherCourseResearchAssistant> TeacherCourseResearchAssistants { get; set; }
         public virtual ICollection<Schedule> Schedules { get; set; }
+        public virtual ICollection<TeacherFieldCourseResearchAssistant> TeacherFieldCourseResearchAssistants { get; set; }
     }
 }

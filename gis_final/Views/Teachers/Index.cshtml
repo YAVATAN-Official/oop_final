@@ -5,10 +5,12 @@
 }
 
 <h3>Teachers</h3>
-
-<p>
-    <a asp-action="Create" asp-controller="Users" asp-route-userType="1" class="btn btn-primary">Create New</a>
-</p>
+@if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "Admin")
+{
+    <p>
+        <a asp-action="Create" asp-controller="Users" asp-route-userType="1" class="btn btn-primary">Create New</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -29,61 +31,92 @@
             </th>
             <th>Role</th>
             <th>Tag</th>
-            <th>Assign Field</th>
-            <th>Assign Courses</th>
+            @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "Admin")
+            {
+                <th>Assign Field</th>
+            }
+            else
+            {
+                <th>Field</th>
+            }
+            <th>Courses</th>
+            @*<th>Research Assistants</th>*@
+            <th>Conselor for</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.UserNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Roles.Title)
-            </td>
-            <td>
-                @if (item.TagName == "Unknown")
-                {
-                    <a asp-action="AddTag" asp-route-id="@item.User.Id"><i class="fa fa-plus text-success"></i></a>
-                }
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.TagName)
-                    <span> &nbsp</span> <a asp-action="AddTag" asp-route-id="@item.User.Id"><i class="fa fa-edit"></i></a>
-                    <span> &nbsp</span> <a asp-action="RemoveTag" asp-route-id="@item.User.Id"><i class="fa fa-trash text-danger"></i></a>
-                }
-            </td>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.UserNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Roles.Title)
+                </td>
+                <td>
+                    @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "Admin")
+                    {
+                        @if (item.TagName == "Unknown")
+                        {
+                            <a asp-action="AddTag" asp-route-id="@item.User.Id"><i class="fa fa-plus text-success"></i></a>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.TagName)
+                            <span> &nbsp</span> <a asp-action="AddTag" asp-route-id="@item.User.Id"><i class="fa fa-edit"></i></a>
+                            <span> &nbsp</span> <a asp-action="RemoveTag" asp-route-id="@item.User.Id"><i class="fa fa-trash text-danger"></i></a>
+                        }
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.TagName)
+                    }
+                </td>
 
-            <td>
-                @if (item.FieldName == "Unknown")
-                {
-                    <a asp-action="AssignField" asp-route-id="@item.User.Id"><i class="fa fa-plus text-success"></i></a>
-                }
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.FieldName)
-                    <span> &nbsp</span> <a asp-action="AssignField" asp-route-id="@item.User.Id"><i class="fa fa-edit"></i></a>
-                    <span> &nbsp</span> <a asp-action="RemoveField" asp-route-id="@item.User.Id"><i class="fa fa-trash text-danger"></i></a>
-                }
-            </td>
-            <td>
-                <a asp-action="AssignFieldCourses" asp-route-id="@item.User.Id"><i class="fa fa-plus text-success"></i></a>
-            </td>
-        </tr>
+                <td>
+                    @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "Admin")
+                    {
+                        @if (item.FieldName == "Unknown")
+                        {
+                            <a asp-action="AssignField" asp-route-id="@item.User.Id"><i class="fa fa-plus text-success"></i></a>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.FieldName)
+                            <span> &nbsp</span> <a asp-action="AssignField" asp-route-id="@item.User.Id"><i class="fa fa-edit"></i></a>
+                            <span> &nbsp</span> <a asp-action="RemoveField" asp-route-id="@item.User.Id"><i class="fa fa-trash text-danger"></i></a>
+                        }
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.FieldName)
+                    }
+
+                </td>
+                <td>
+                    <a asp-action="Index" asp-controller="TeacherFieldCourses" asp-route-teacherId="@item.User.Id"><i class="fa fa-eye text-primary"></i></a>
+
+                </td>
+                @*<td>
+                    <a asp-action="MyResearchAssistants" asp-route-id="@item.User.Id"><i class="fa fa-eye text-primary"></i></a>
+                </td>*@
+                <td>
+                    <a asp-action="ConselorForStudents" asp-route-id="@item.User.Id"><i class="fa fa-eye text-primary"></i></a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<gis_final.Models.TeacherCourseResearchAssistant>
+﻿@model IEnumerable<gis_final.Models.TeacherFieldCourseResearchAssistant>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ResearchAssistantId)
+                @Html.DisplayNameFor(model => model.AssistantId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.TeacherFieldCourse)
@@ -25,7 +25,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ResearchAssistantId)
+                @Html.DisplayFor(modelItem => item.AssistantId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TeacherFieldCourse.Id)

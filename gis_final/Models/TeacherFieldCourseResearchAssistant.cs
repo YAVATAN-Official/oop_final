@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace gis_final.Models
 {
-    public class TeacherCourseResearchAssistant : BaseEntity
+    public class TeacherFieldCourseResearchAssistant : BaseEntity
     {
-        // USERID
-        public int ResearchAssistantId { get; set; }
+        // Assistant
+        public int AssistantId { get; set; }
         public int TeacherFieldCourseId{ get; set; }
         public virtual TeacherFieldCourse TeacherFieldCourse { get; set; }
     }
