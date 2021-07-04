@@ -6,9 +6,12 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Create New</a>
-</p>
+@if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "Admin")
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Create New</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -40,40 +43,41 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Teacher.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Student.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Field.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Course.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.YearTerm.Year)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.YearTerm.TermId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Score)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ScoreStatus)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Schedule.Id"><i class="fa fa-edit"></i></a>
-                @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "Admin")
-                {
-                    <a asp-action="Delete" asp-route-id="@item.Schedule.Id"><i class="fa fa-trash text-danger"></i></a>
-                }
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Student.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Field.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.YearTerm.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.YearTerm.TermId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Score)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ScoreStatus)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Schedule.Id"><i class="fa fa-edit"></i></a>
+                    @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "Admin")
+                    {
+                        <a asp-action="Delete" asp-route-id="@item.Schedule.Id"><i class="fa fa-trash text-danger"></i></a>
+                    }
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
